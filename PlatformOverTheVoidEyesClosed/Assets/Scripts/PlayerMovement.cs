@@ -48,7 +48,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void Movement() {
         // X & Z Movement
-        requestedVector = new Vector3(Input.GetAxis("Horizontal")*movementSpeed, rb.velocity.y, Input.GetAxis("Vertical")*movementSpeed);
+        requestedVector = Input.GetAxis("Horizontal") * movementSpeed * transform.right;
+        requestedVector += Input.GetAxis("Vertical") * movementSpeed * transform.forward;
+        requestedVector.y = rb.velocity.y;
+        //requestedVector = new Vector3(Input.GetAxis("Horizontal")*movementSpeed, rb.velocity.y, Input.GetAxis("Vertical")*movementSpeed);
+        
         if(requestedVector != Vector3.zero && movementSpeed != 0)
             rb.velocity = requestedVector;
         //  Y Movement - Jump
@@ -61,7 +65,8 @@ public class PlayerMovement : MonoBehaviour
         //rb.rotation = Quaternion.Euler(rb.rotation.eulerAngles + new Vector3(0f, lookSpeed * Input.GetAxis("Mouse Y"), 0f));
     }
 
-    private void MouseLook() {
+    private void MouseLook() 
+    {
         lookVector.y += Input.GetAxis("Mouse X")*lookSpeed;
         lookVector.x += Input.GetAxis("Mouse Y") * lookSpeed;
         lookVector.x = Mathf.Clamp(lookVector.x, -maxVerticalLook,maxVerticalLook);
