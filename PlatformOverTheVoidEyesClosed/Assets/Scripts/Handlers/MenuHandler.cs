@@ -24,13 +24,19 @@ public class MenuHandler : MonoBehaviour
     
     private void OnEnable()
     {
-        UpdateHandler.UpdateOccurred += OpenClosePauseMenu;
+        UpdateHandler.UpdateOccurred += CheckForPauseOnUpdate;
         
     }
     private void OnDisable()
     {
-        UpdateHandler.UpdateOccurred -= OpenClosePauseMenu;
+        UpdateHandler.UpdateOccurred -= CheckForPauseOnUpdate;
     }
+
+    public void CheckForPauseOnUpdate() {
+        if (Input.GetButtonUp("Cancel"))
+            OpenClosePauseMenu();
+    }
+
     public void EnableDisableBlindfoldInPause() {
         if (Blindfold.activeSelf) {
             Blindfold.SetActive(false);
@@ -49,12 +55,11 @@ public class MenuHandler : MonoBehaviour
     }
 
     public void OpenClosePauseMenu() {
-        if (Input.GetButtonUp("Cancel") && PauseMenu != null) {
+        if (PauseMenu != null) {
             if (PauseMenu.activeSelf)
             {
                 Cursor.lockState = CursorLockMode.Locked;
                 if (Settings.activeSelf) {
-                    // ADD SAVE FOR SETTINGS HERE ----------------------------------------------- IMPLEMENT THIS!!!
                     Settings.SetActive(false);
                 }
                 PauseMenu.SetActive(false);
