@@ -5,10 +5,14 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody rb;
-    private Vector3 velocityVector = Vector3.zero;
+    private Transform trans;
     private Vector3 requestedVector = Vector3.zero;
+    private Vector3 lookVector = Vector3.zero;
+    
     [SerializeField] private float movementSpeed = 1.0f;
     [SerializeField] private float jumpSpeed = 1.0f;
+    [SerializeField] private float lookSpeed = 1.0f;
+    [SerializeField] private float maxVerticalLook = 90.0f;
 
     // Collision checkers & getters
     private bool isGrounded = true;
@@ -25,30 +29,43 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
+        trans = this.GetComponent<Transform>();
+        Cursor.lockState = CursorLockMode.Locked;
+        lookVector = rb.rotation.eulerAngles;
     }
 
     private void OnEnable()
     {
+        UpdateHandler.UpdateOccurred += MouseLook;
         UpdateHandler.FixedUpdateOccurred += Movement;
     }
 
     private void OnDisable()
     {
+        UpdateHandler.UpdateOccurred -= MouseLook;
         UpdateHandler.FixedUpdateOccurred -= Movement;
     }
 
     private void Movement() {
-        // Get player input
+        // X & Z Movement
         requestedVector = new Vector3(Input.GetAxis("Horizontal")*movementSpeed, rb.velocity.y, Input.GetAxis("Vertical")*movementSpeed);
-        // Move with CharacterController 
         if(requestedVector != Vector3.zero && movementSpeed != 0)
-            rb.velocity = (requestedVector);
-        // If player wants to Jump
+            rb.velocity = requestedVector;
+        //  Y Movement - Jump
         if (Input.GetButton("Jump")&&isGrounded)
         {
             rb.AddForce(Vector3.up*jumpSpeed);
             isGrounded = false;
         }
+        // Turning with mouse
+        //rb.rotation = Quaternion.Euler(rb.rotation.eulerAngles + new Vector3(0f, lookSpeed * Input.GetAxis("Mouse Y"), 0f));
+    }
+
+    private void MouseLook() {
+        lookVector.y += Input.GetAxis("Mouse X")*lookSpeed;
+        lookVector.x += Input.GetAxis("Mouse Y") * lookSpeed;
+        lookVector.x = Mathf.Clamp(lookVector.x, -maxVerticalLook,maxVerticalLook);
+        trans.eulerAngles = lookVector;
     }
 
     private void OnCollisionEnter(Collision collision)
