@@ -69,7 +69,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (MouseLookEnabled) {
             lookVector.y += Input.GetAxis("Mouse X") * lookSpeed;
-            lookVector.x += Input.GetAxis("Mouse Y") * lookSpeed;
+            lookVector.x += Input.GetAxis("Mouse Y") * -lookSpeed;
             lookVector.x = Mathf.Clamp(lookVector.x, -maxVerticalLook, maxVerticalLook);
             trans.eulerAngles = lookVector;
         }
