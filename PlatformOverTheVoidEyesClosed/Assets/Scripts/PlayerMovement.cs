@@ -25,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
     public bool IsCollidingRight { get { return isCollidingRight; } }
     public bool IsCollidingFront { get { return isCollidingFront; } }
     public bool IsCollidingBack { get { return isCollidingBack; } }
+    public bool MouseLookEnabled { get; set; }
 
     void Start()
     {
@@ -32,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
         trans = this.GetComponent<Transform>();
         Cursor.lockState = CursorLockMode.Locked;
         lookVector = rb.rotation.eulerAngles;
+        MouseLookEnabled = true;
     }
 
     private void OnEnable()
@@ -47,30 +49,30 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void Movement() {
-        // X & Z Movement
+        // X & Z Movement w/ Mouse Rotation
         requestedVector = Input.GetAxis("Horizontal") * movementSpeed * transform.right;
         requestedVector += Input.GetAxis("Vertical") * movementSpeed * transform.forward;
         requestedVector.y = rb.velocity.y;
         //requestedVector = new Vector3(Input.GetAxis("Horizontal")*movementSpeed, rb.velocity.y, Input.GetAxis("Vertical")*movementSpeed);
-        
         if(requestedVector != Vector3.zero && movementSpeed != 0)
             rb.velocity = requestedVector;
+
         //  Y Movement - Jump
         if (Input.GetButton("Jump")&&isGrounded)
         {
             rb.AddForce(Vector3.up*jumpSpeed);
             isGrounded = false;
         }
-        // Turning with mouse
-        //rb.rotation = Quaternion.Euler(rb.rotation.eulerAngles + new Vector3(0f, lookSpeed * Input.GetAxis("Mouse Y"), 0f));
     }
 
     private void MouseLook() 
     {
-        lookVector.y += Input.GetAxis("Mouse X")*lookSpeed;
-        lookVector.x += Input.GetAxis("Mouse Y") * lookSpeed;
-        lookVector.x = Mathf.Clamp(lookVector.x, -maxVerticalLook,maxVerticalLook);
-        trans.eulerAngles = lookVector;
+        if (MouseLookEnabled) {
+            lookVector.y += Input.GetAxis("Mouse X") * lookSpeed;
+            lookVector.x += Input.GetAxis("Mouse Y") * lookSpeed;
+            lookVector.x = Mathf.Clamp(lookVector.x, -maxVerticalLook, maxVerticalLook);
+            trans.eulerAngles = lookVector;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
