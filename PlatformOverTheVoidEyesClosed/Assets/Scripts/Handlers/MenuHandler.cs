@@ -49,7 +49,7 @@ public class MenuHandler : MonoBehaviour
     }
 
     public void OpenClosePauseMenu() {
-        if (Input.GetButtonUp("Cancel")) {
+        if (Input.GetButtonUp("Cancel") && PauseMenu != null) {
             if (PauseMenu.activeSelf)
             {
                 Cursor.lockState = CursorLockMode.Locked;
