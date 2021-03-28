@@ -47,6 +47,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void Movement() {
+        Debug.Log(transform.rotation.eulerAngles.y);
         // X & Z Movement
         requestedVector = Input.GetAxis("Horizontal") * movementSpeed * transform.right;
         requestedVector += Input.GetAxis("Vertical") * movementSpeed * transform.forward;
