@@ -6,7 +6,9 @@ using TMPro;
 /* THINGS TO ASSIGN IN A NEW SCENE:
  * eyesOpenCloseText: PauseMenu->EyesOpen->Button->Text(TMP)
  * Settings Open on Pause: PauseMenu->Settings->OnClick()->Handlers+OpenCloseSettingsMenu, SaveSystem+SaveVolumes
- * Save & Exit Settings: SettingsMenu->Save->OnClick()->Handlers+OpenCloseSEttingsMenu, SaveSystem+SaveVolumes
+ * Save & Exit Settings: SettingsMenu->Save->OnClick()->Handlers+OpenCloseSettingsMenu, SaveSystem+SaveVolumes
+ * BackToLevelSelect: PauseMenu->BackToLevelSelect->OnClick()->Handlers+GoToLevelSelect
+ * BackToMain: PauseMenu->BackToMainMenu->OnClick()->Handlers+GoToMain
  */
 public class MenuHandler : MonoBehaviour
 {
