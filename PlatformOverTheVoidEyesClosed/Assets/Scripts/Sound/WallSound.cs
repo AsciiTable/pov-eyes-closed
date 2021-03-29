@@ -31,7 +31,8 @@ public class WallSound : MonoBehaviour
             sideWall = true;
         else
             sideWall = false;
-
+        //0 z > player, 270 z < player
+        //90 x > player, 180 z < player
         frontDegrees = (sideWall) ? ((playerTrans.position.x > transform.position.x) ? 90 : 270) : ((playerTrans.position.z > transform.position.z) ? 180 : 0);
     }
 
@@ -44,25 +45,23 @@ public class WallSound : MonoBehaviour
 
         if (!touching)
         {
-            muffle = 1f;
             float distance = (sideWall) ? Mathf.Abs(transform.position.x - playerTrans.position.x) : Mathf.Abs(transform.position.z - playerTrans.position.z);
             distance -= (sideWall) ? (transform.localScale.x + playerTrans.localScale.x) * 0.5f : (transform.localScale.z + playerTrans.localScale.z) * 0.5f;
-            if (distance <= radius)
-            {
-                magnitude = 1 + Mathf.Log(distance / radius);
-                if (magnitude < 0.1f) magnitude = 0.1f;
-                muffle = magnitude;
-            }
+
             //Disconnect script if it's out of range
-            else
+            if (distance > radius || CheckPastPlayer())
             {
                 if (connected)
                 {
-                    MusicManager.singleton.DisconnectSource();
+                    WallSound_Manager.singleton.DisconnectSource();
                     connected = false;
                 }
                 return;
             }
+
+            magnitude = 1 + Mathf.Log(distance / radius);
+            if (magnitude < 0.1f) magnitude = 0.1f;
+            muffle = magnitude;
         }
         //Get Stereo Pan of volume from player rotation
         float panStereo = 0f;
@@ -82,11 +81,28 @@ public class WallSound : MonoBehaviour
         panStereo = angle / 90f;
 
         if (!connected) {
-            MusicManager.singleton.ConnectSource();
+            WallSound_Manager.singleton.ConnectSource();
             connected = true;
         }
-        MusicManager.singleton.SetVolume(magnitude, panStereo);
-        MusicManager.singleton.SetFrequency(muffle, panStereo);
+        WallSound_Manager.singleton.SetVolume(magnitude, panStereo);
+        WallSound_Manager.singleton.SetFrequency(muffle, panStereo);
+    }
+
+    //Check if player passed this wall
+    private bool CheckPastPlayer()
+    {
+        //0 z > player, 270 z < player
+        //90 x > player, 180 z < player
+        if (frontDegrees == 0 && transform.position.z < playerTrans.position.z)
+            return true;
+        else if(frontDegrees == 90 && transform.position.x < playerTrans.position.x)
+            return true;
+        else if (frontDegrees == 180  && transform.position.z > playerTrans.position.z)
+            return true;
+        else if (frontDegrees == 270 && transform.position.x > playerTrans.position.x)
+            return true;
+
+        return false;
     }
 
     private void OnCollisionEnter(Collision collision)

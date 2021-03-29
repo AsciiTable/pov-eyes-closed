@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MusicManager : MonoBehaviour
+public class WallSound_Manager : MonoBehaviour
 {
-    public static MusicManager singleton = null;
+    public static WallSound_Manager singleton = null;
 
     //Music that this wall will play
     AudioSource rightEar = null;
@@ -14,7 +14,7 @@ public class MusicManager : MonoBehaviour
     AudioLowPassFilter rightMuffler = null;
 
     //Number of scripts editing this manager
-    [SerializeField] int connectedSources = 0;
+    int connectedSources = 0;
 
     [Header("MUSIC SETTINGS")]
     [SerializeField] float maxVolume = 0.7f;
