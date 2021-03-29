@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody rb;
     private Transform trans;
+    private Transform camTrans;
     private Vector3 requestedVector = Vector3.zero;
     private Vector3 lookVector = Vector3.zero;
     private float lastYPosition = 0f;
@@ -32,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = this.GetComponent<Rigidbody>();
         trans = this.GetComponent<Transform>();
+        camTrans = GameObject.FindGameObjectWithTag("MainCamera").transform;
         Cursor.lockState = CursorLockMode.Locked;
         lookVector = rb.rotation.eulerAngles;
         MouseLookEnabled = true;
@@ -52,8 +54,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Movement() {
         // X & Z Movement w/ Mouse Rotation
-        requestedVector = Input.GetAxis("Horizontal") * movementSpeed * transform.right;
-        requestedVector += Input.GetAxis("Vertical") * movementSpeed * transform.forward;
+        requestedVector = Input.GetAxis("Horizontal") * movementSpeed * camTrans.right;
+        requestedVector += Input.GetAxis("Vertical") * movementSpeed * camTrans.forward;
         /*
         requestedVector.y = 0;
         //Check if movement will hit wall
@@ -95,7 +97,7 @@ public class PlayerMovement : MonoBehaviour
             lookVector.y += Input.GetAxis("Mouse X") * lookSpeed;
             lookVector.x += Input.GetAxis("Mouse Y") * -lookSpeed;
             lookVector.x = Mathf.Clamp(lookVector.x, -maxVerticalLook, maxVerticalLook);
-            trans.eulerAngles = lookVector;
+            camTrans.eulerAngles = lookVector;
         }
     }
 

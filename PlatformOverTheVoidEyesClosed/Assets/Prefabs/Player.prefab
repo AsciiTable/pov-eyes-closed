@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2460725910160762126}
   - component: {fileID: 2460725910160762131}
   - component: {fileID: 2460725910160762127}
-  - component: {fileID: 1103338852}
+  - component: {fileID: 1441485966}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -97,8 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 442a67755008b9a44900fb7f299b339e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 5
-  jumpSpeed: 250
+  movementSpeed: 10
+  jumpSpeed: 350
   lookSpeed: 1
   maxVerticalLook: 15
 --- !u!54 &2460725910160762127
@@ -117,18 +117,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!135 &1103338852
-SphereCollider:
+--- !u!65 &1441485966
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2460725910160762121}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 2ea58184955d6ea44891c52d967b3176, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5000001
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000002}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2460725911210437530
 GameObject:
@@ -156,7 +156,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2460725911210437530}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.98, z: -1.8600006}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2460725910160762124}
