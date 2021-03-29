@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 2159644667401013309}
   - component: {fileID: 2159644667401013283}
   - component: {fileID: 6031173730222784527}
+  - component: {fileID: 792648259}
+  - component: {fileID: 792648260}
   m_Layer: 0
   m_Name: Handlers
   m_TagString: Untagged
@@ -57,7 +59,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fed0e4b45d7805f40ae37078253fab8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Settings: {fileID: 5874321549854630641, guid: f96b1be07b4668440b6f2c1b9cf8a8ab, type: 3}
+  Settings: {fileID: 0}
   PauseMenu: {fileID: 2691492441641469599, guid: b38c27a275c84d04fbf618225cec0b80, type: 3}
   Blindfold: {fileID: 2845722541462640739, guid: cfaded2b3725a1c40a51e3465d7e0afa, type: 3}
   player: {fileID: 2460725910160762131, guid: b397876dbbf88ce4e948eeda8fa4ad10, type: 3}
@@ -74,3 +76,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d07cc80ad34c0044a39456c65a426c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &792648259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2159644667401013310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36da525b8ae18594094f946bc4b54cd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AllLevels:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+--- !u!114 &792648260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2159644667401013310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c88d1a20640da4d40a4977adf190f9f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxSlide: {fileID: 0}
+  bgmSlide: {fileID: 0}
+  sfxDisplayValue: {fileID: 0}
+  bgmDisplayValue: {fileID: 0}

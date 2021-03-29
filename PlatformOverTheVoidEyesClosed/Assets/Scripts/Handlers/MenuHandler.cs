@@ -6,7 +6,9 @@ using TMPro;
 /* THINGS TO ASSIGN IN A NEW SCENE:
  * eyesOpenCloseText: PauseMenu->EyesOpen->Button->Text(TMP)
  * Settings Open on Pause: PauseMenu->Settings->OnClick()->Handlers+OpenCloseSettingsMenu, SaveSystem+SaveVolumes
- * Save & Exit Settings: SettingsMenu->Save->OnClick()->Handlers+OpenCloseSEttingsMenu, SaveSystem+SaveVolumes
+ * Save & Exit Settings: SettingsMenu->Save->OnClick()->Handlers+OpenCloseSettingsMenu, SaveSystem+SaveVolumes
+ * BackToLevelSelect: PauseMenu->BackToLevelSelect->OnClick()->Handlers+GoToLevelSelect
+ * BackToMain: PauseMenu->BackToMainMenu->OnClick()->Handlers+GoToMain
  */
 public class MenuHandler : MonoBehaviour
 {
@@ -22,13 +24,19 @@ public class MenuHandler : MonoBehaviour
     
     private void OnEnable()
     {
-        UpdateHandler.UpdateOccurred += OpenClosePauseMenu;
+        UpdateHandler.UpdateOccurred += CheckForPauseOnUpdate;
         
     }
     private void OnDisable()
     {
-        UpdateHandler.UpdateOccurred -= OpenClosePauseMenu;
+        UpdateHandler.UpdateOccurred -= CheckForPauseOnUpdate;
     }
+
+    public void CheckForPauseOnUpdate() {
+        if (Input.GetButtonUp("Cancel"))
+            OpenClosePauseMenu();
+    }
+
     public void EnableDisableBlindfoldInPause() {
         if (Blindfold.activeSelf) {
             Blindfold.SetActive(false);
@@ -47,12 +55,11 @@ public class MenuHandler : MonoBehaviour
     }
 
     public void OpenClosePauseMenu() {
-        if (Input.GetButtonUp("Cancel")) {
+        if (PauseMenu != null) {
             if (PauseMenu.activeSelf)
             {
                 Cursor.lockState = CursorLockMode.Locked;
                 if (Settings.activeSelf) {
-                    // ADD SAVE FOR SETTINGS HERE ----------------------------------------------- IMPLEMENT THIS!!!
                     Settings.SetActive(false);
                 }
                 PauseMenu.SetActive(false);
