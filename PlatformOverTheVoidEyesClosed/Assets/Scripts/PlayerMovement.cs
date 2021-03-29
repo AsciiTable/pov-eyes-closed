@@ -52,6 +52,17 @@ public class PlayerMovement : MonoBehaviour
         // X & Z Movement w/ Mouse Rotation
         requestedVector = Input.GetAxis("Horizontal") * movementSpeed * transform.right;
         requestedVector += Input.GetAxis("Vertical") * movementSpeed * transform.forward;
+        /*
+        requestedVector.y = 0;
+        //Check if movement will hit wall
+        RaycastHit hit;
+        if (rb.SweepTest(requestedVector, out hit, 1.2f))
+        {
+            // If so, stop the movement
+            requestedVector = Vector3.zero;
+        }
+        */
+
         requestedVector.y = rb.velocity.y;
         //requestedVector = new Vector3(Input.GetAxis("Horizontal")*movementSpeed, rb.velocity.y, Input.GetAxis("Vertical")*movementSpeed);
         if(requestedVector != Vector3.zero && movementSpeed != 0)
@@ -63,6 +74,9 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(Vector3.up*jumpSpeed);
             isGrounded = false;
         }
+
+
+        
     }
 
     private void MouseLook() 
