@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     private Transform trans;
     private Vector3 requestedVector = Vector3.zero;
     private Vector3 lookVector = Vector3.zero;
+    private float lastYPosition = 0f;
     
     [SerializeField] private float movementSpeed = 1.0f;
     [SerializeField] private float jumpSpeed = 1.0f;
@@ -34,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         lookVector = rb.rotation.eulerAngles;
         MouseLookEnabled = true;
+        lastYPosition = transform.position.y;
     }
 
     private void OnEnable()
@@ -75,7 +77,15 @@ public class PlayerMovement : MonoBehaviour
             isGrounded = false;
         }
 
-
+        if (transform.position.y != lastYPosition)
+        {
+            Debug.Log("Last: " + lastYPosition);
+            Debug.Log("This: " + transform.position.y)
+            isGrounded = false;
+            lastYPosition = trans.position.y;
+        }
+        
+           
         
     }
 
@@ -93,6 +103,16 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Floor")) {
             isGrounded = true;
+            lastYPosition = trans.position.y;
+            Debug.Log("Collided with floor.");
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Step") || other.gameObject.gameObject.CompareTag("Floor")) {
+            isGrounded = true;
+            lastYPosition = trans.position.y;
             Debug.Log("Collided with floor.");
         }
     }
