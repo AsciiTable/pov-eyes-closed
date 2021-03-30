@@ -29,6 +29,9 @@ public class PlayerMovement : MonoBehaviour
     public bool IsCollidingBack { get { return isCollidingBack; } }
     public bool MouseLookEnabled { get; set; }
 
+    // UI stuff
+    [SerializeField] private MenuHandler menuhandling;
+
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
@@ -110,6 +113,10 @@ public class PlayerMovement : MonoBehaviour
             isGrounded = true;
             lastYPosition = trans.position.y;
             Debug.Log("Collided with floor.");
+        }
+        if (other.gameObject.CompareTag("Goal")){
+            menuhandling.OpenGoalPanel();
+            Debug.Log("Collided with goal");
         }
     }
 }

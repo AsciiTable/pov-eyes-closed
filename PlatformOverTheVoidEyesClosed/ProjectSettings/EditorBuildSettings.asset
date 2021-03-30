@@ -14,4 +14,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/JessScene.unity
     guid: db575721548918f40bf1d77d9710a72e
+  - enabled: 1
+    path: Assets/Scenes/Levels/Level1.unity
+    guid: ee976b7e6e8a9034183d1ef496b6ee46
+  - enabled: 1
+    path: Assets/Scenes/Levels/Level2.unity
+    guid: a24eda568fa40c442b03996e7d46f88c
+  - enabled: 1
+    path: Assets/Scenes/Levels/Level3.unity
+    guid: 0d3b8fd1a8c091040bbe1d870a62084e
   m_configObjects: {}

@@ -8,6 +8,7 @@ TagManager:
   - Wall
   - Locked
   - Step
+  - Goal
   layers:
   - Default
   - TransparentFX

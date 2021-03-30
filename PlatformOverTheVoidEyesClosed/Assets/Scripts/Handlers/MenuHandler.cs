@@ -12,14 +12,18 @@ using TMPro;
  */
 public class MenuHandler : MonoBehaviour
 {
+    public const int MAXLEVELINDEX = 4;
     #region Menus
     [SerializeField] private GameObject Settings;
     [SerializeField] private GameObject PauseMenu;
     [SerializeField] private GameObject Blindfold;
+    [SerializeField] private GameObject GoalPanel;
     #endregion
     #region Affected objects
     [SerializeField] private PlayerMovement player;
     [SerializeField] private TextMeshProUGUI eyesOpenCloseText;
+    [SerializeField] private GameObject nextLevelButtonGoal;
+    [SerializeField] private TextMeshProUGUI timerTextGoal;
     #endregion
     
     private void OnEnable()
@@ -58,14 +62,16 @@ public class MenuHandler : MonoBehaviour
         if (PauseMenu != null) {
             if (PauseMenu.activeSelf)
             {
-                Cursor.lockState = CursorLockMode.Locked;
+                if (!GoalPanel.activeSelf)
+                {
+                    Cursor.lockState = CursorLockMode.Locked;
+                    player.MouseLookEnabled = true;
+                    Time.timeScale = 1.0f;
+                }
                 if (Settings.activeSelf) {
                     Settings.SetActive(false);
                 }
                 PauseMenu.SetActive(false);
-                Cursor.lockState = CursorLockMode.Locked;
-                player.MouseLookEnabled = true;
-                Time.timeScale = 1.0f; 
             }
             else {
                 Time.timeScale = 0.0f;
@@ -83,5 +89,17 @@ public class MenuHandler : MonoBehaviour
         else {
             Settings.SetActive(true);
         }
+    }
+
+    public void OpenGoalPanel() { // Should be called ONLY on level completion
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        Time.timeScale = 0.0f;
+        LevelInformation info = GetComponent<LevelInformation>();
+        timerTextGoal.text = info.SetTimerValueOnComplete();
+        LevelHandler.RequestUpdate(info.LevelIndex, info.Timer);
+        if (info.LevelIndex >= MAXLEVELINDEX && nextLevelButtonGoal.activeSelf)
+            nextLevelButtonGoal.SetActive(false);
+        GoalPanel.SetActive(true);
     }
 }

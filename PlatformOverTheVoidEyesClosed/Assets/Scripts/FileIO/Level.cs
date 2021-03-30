@@ -6,14 +6,14 @@ public class Level
     public int levelIndex;
     public bool locked;
     public bool completed;
-    public int highestScore;
+    public double lowestTime;
 
     // Default constructor
     public Level() {
         levelIndex = 0;
         locked = true;
         completed = false;
-        highestScore = 0;
+        lowestTime = double.MaxValue;
     }
 
     // Full constructor
@@ -21,7 +21,7 @@ public class Level
         levelIndex = indexOfLevel;
         locked = lockedLevel;
         completed = completedLevel;
-        highestScore = highestScoreAchieved;
+        lowestTime = highestScoreAchieved;
     }
 
     // New level constructor
@@ -29,13 +29,13 @@ public class Level
         levelIndex = indexOfLevel;
         locked = lockedLevel;
         completed = false;
-        highestScore = 0;
+        lowestTime = double.MaxValue;
     }
 
-    public void UpdateData(bool lockedLevel, bool completedLevel, int highestScoreAchieved) {
+    public void UpdateData(bool lockedLevel, bool completedLevel, double time) {
         locked = lockedLevel;
         completed = completedLevel;
-        if(highestScoreAchieved > highestScore)
-            highestScore = highestScoreAchieved;
+        if(time < lowestTime)
+            lowestTime = time;
     }
 }
