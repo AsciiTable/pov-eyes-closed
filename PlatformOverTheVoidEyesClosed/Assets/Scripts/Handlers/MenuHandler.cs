@@ -13,6 +13,7 @@ using TMPro;
 public class MenuHandler : MonoBehaviour
 {
     public const int MAXLEVELINDEX = 4;
+    public bool inLevel = true;
     #region Menus
     [SerializeField] private GameObject Settings;
     [SerializeField] private GameObject PauseMenu;
@@ -37,7 +38,7 @@ public class MenuHandler : MonoBehaviour
     }
 
     public void CheckForPauseOnUpdate() {
-        if (Input.GetButtonUp("Cancel"))
+        if (Input.GetButtonUp("Cancel") && inLevel)
             OpenClosePauseMenu();
     }
 
