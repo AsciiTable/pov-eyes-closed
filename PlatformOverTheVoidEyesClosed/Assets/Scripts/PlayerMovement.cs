@@ -12,19 +12,20 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 lookVector = Vector3.zero;
     private Vector3 startVector = Vector3.zero;
 
-    [SerializeField]private float maxSpeed = 10.0f;
+    [SerializeField] private float maxMSpeed = 1.0f;
     [SerializeField] private float movementSpeed = 1.0f;
+    [SerializeField] private float maxJSpeed = 1.0f;
     [SerializeField] private float jumpSpeed = 1.0f;
     [SerializeField] private float lookSpeed = 1.0f;
     [SerializeField] private float maxVerticalLook = 90.0f;
 
     // Collision checkers & getters
-    [SerializeField]public bool isGrounded = true;
+    [SerializeField]public int groundContacts = 0;
     private bool isCollidingLeft = false;
     private bool isCollidingRight = false;
     private bool isCollidingFront = false;
     private bool isCollidingBack = false;
-    public bool IsGrounded { get { return isGrounded; } }
+    public bool IsGrounded { get { return groundContacts > 0; } }
     public bool IsCollidingLeft { get { return isCollidingLeft; } }
     public bool IsCollidingRight { get { return isCollidingRight; } }
     public bool IsCollidingFront { get { return isCollidingFront; } }
@@ -74,16 +75,18 @@ public class PlayerMovement : MonoBehaviour
             // X & Z Movement w/ Mouse Rotation
             requestedVector = Input.GetAxis("Horizontal") * movementSpeed * camTrans.right;
             requestedVector += Input.GetAxis("Vertical") * movementSpeed * camTrans.forward;
-            /*
-            requestedVector.y = 0;
-            //Check if movement will hit wall
-            RaycastHit hit;
-            if (rb.SweepTest(requestedVector, out hit, 1.2f))
+
+            //  Y Movement - Jump
+            if (Input.GetButton("Jump") && IsGrounded)
             {
-                // If so, stop the movement
-                requestedVector = Vector3.zero;
+                //if (transform.position.y != lastYPosition) {
+                requestedVector.y = jumpSpeed;
+                jumpSFX.Play();
+                //groundContacts = 0;
+                //}
             }
-            */
+            else
+                requestedVector.y = rb.velocity.y;
 
             requestedVector.y = rb.velocity.y;
             //requestedVector = new Vector3(Input.GetAxis("Horizontal")*movementSpeed, rb.velocity.y, Input.GetAxis("Vertical")*movementSpeed);
@@ -92,17 +95,13 @@ public class PlayerMovement : MonoBehaviour
                 rb.velocity = requestedVector;
             }
 
-            //  Y Movement - Jump
-            if (Input.GetButton("Jump") && isGrounded)
-            {
-                //if (transform.position.y != lastYPosition) {
-                rb.AddForce(Vector3.up * jumpSpeed);
-                isGrounded = false;
-                //}
-                jumpSFX.Play();
-            }
-            if (rb.velocity.magnitude > maxSpeed)
-                rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
+            //Clamp the x and z axis
+            requestedVector = rb.velocity;
+            requestedVector.y = 0f;
+            if (requestedVector.magnitude > maxMSpeed)
+                requestedVector = Vector3.ClampMagnitude(requestedVector, maxMSpeed);
+            //Clamp the y axis
+            requestedVector.y = (rb.velocity.y > maxJSpeed) ? maxJSpeed : rb.velocity.y;
         }
     }
 
@@ -129,12 +128,12 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Floor")) {
             landSFX.Play();
-            isGrounded = true;
+            groundContacts += 1;
             Debug.Log("Collided with floor.");
         }
         if (collision.gameObject.CompareTag("Step")) {
             landSFX.Play();
-            isGrounded = true;
+            groundContacts += 1;
             Debug.Log("Collided with step.");
         }
         if (collision.gameObject.CompareTag("Wall")) {
@@ -154,7 +153,9 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("Step"))
         {
-            isGrounded = false;
+            groundContacts -= 1;
+            if (groundContacts < 0)
+                groundContacts = 0;
         }
         if (collision.gameObject.CompareTag("Wall")) {
             walkingIntoWall = false;
