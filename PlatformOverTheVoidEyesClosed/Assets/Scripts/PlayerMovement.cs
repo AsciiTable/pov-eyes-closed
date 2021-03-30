@@ -72,23 +72,17 @@ public class PlayerMovement : MonoBehaviour
         if(requestedVector != Vector3.zero && movementSpeed != 0)
             rb.velocity = requestedVector;
 
+
         //  Y Movement - Jump
         if (Input.GetButton("Jump")&&isGrounded)
         {
-            rb.AddForce(Vector3.up*jumpSpeed);
-            isGrounded = false;
+            //if (transform.position.y != lastYPosition) {
+                rb.AddForce(Vector3.up * jumpSpeed);
+                isGrounded = false;
+            //}
         }
-
-        if (transform.position.y != lastYPosition)
-        {
-            Debug.Log("Last: " + lastYPosition);
-            Debug.Log("This: " + transform.position.y)
-            isGrounded = false;
-            lastYPosition = trans.position.y;
-        }
-        
-           
-        
+        //if (transform.position.y != lastYPosition)
+            //lastYPosition = transform.position.y;
     }
 
     private void MouseLook() 
