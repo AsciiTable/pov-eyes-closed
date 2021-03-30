@@ -23,26 +23,30 @@ public class SceneHandler : MonoBehaviour
     }
 
     public void GoToLevelSelect() {
-        SceneManager.LoadScene(Scene.LevelSelect.ToString());
+        Time.timeScale = 1f;
         if (uiSFX != null)
             uiSFX.PlayButtonClick();
+        SceneManager.LoadScene(Scene.LevelSelect.ToString());
     }
 
     public void GoToMainMenu() {
-        SceneManager.LoadScene(Scene.MainMenu.ToString());
+        Time.timeScale = 1f;
         if (uiSFX != null)
             uiSFX.PlayButtonClick();
+        SceneManager.LoadScene(Scene.MainMenu.ToString());
     }
 
     public void GoToLevel(int levelIndex) {
-        SceneManager.LoadScene(Scene.Level.ToString() + levelIndex.ToString());
+        Time.timeScale = 1f;
         if (uiSFX != null)
             uiSFX.PlayButtonClick();
+        SceneManager.LoadScene(Scene.Level.ToString() + levelIndex.ToString());
     }
 
     public void GoToLevel(Scene s) {
-        SceneManager.LoadScene(s.ToString());
+        Time.timeScale = 1f;
         if (uiSFX != null)
             uiSFX.PlayButtonClick();
+        SceneManager.LoadScene(s.ToString());
     }
 }

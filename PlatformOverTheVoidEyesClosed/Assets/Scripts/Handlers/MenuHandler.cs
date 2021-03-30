@@ -23,6 +23,7 @@ public class MenuHandler : MonoBehaviour
     #region Affected objects
     [SerializeField] private PlayerMovement player;
     [SerializeField] private TextMeshProUGUI eyesOpenCloseText;
+    [SerializeField] private GameObject eyesOpenCloseDevNote;
     [SerializeField] private GameObject nextLevelButtonGoal;
     [SerializeField] private TextMeshProUGUI timerTextGoal;
     #endregion
@@ -31,7 +32,8 @@ public class MenuHandler : MonoBehaviour
     private void OnEnable()
     {
         UpdateHandler.UpdateOccurred += CheckForPauseOnUpdate;
-        uiSFX = GameObject.Find("UISFX").GetComponent<UISFXHandler>();
+        if(uiSFX == null) // NOTE: MUST PLAY FROM MAIN MENU TO GET THE UI SOUNDS
+            uiSFX = GameObject.Find("UISFX").GetComponent<UISFXHandler>();
     }
     private void OnDisable()
     {
@@ -44,22 +46,26 @@ public class MenuHandler : MonoBehaviour
     }
 
     public void EnableDisableBlindfoldInPause() {
+        if (uiSFX != null)
+            uiSFX.PlayButtonClick();
         if (Blindfold.activeSelf) {
             Blindfold.SetActive(false);
             if (eyesOpenCloseText != null)
                 eyesOpenCloseText.text = "Open";
             else
                 Debug.Log("Hey you! Yeah, you! Just and/or Jess!! Assign the EyesOpen's button's Text(TMP) object to the 'Eyes Open Close Text' field!");
+            if (eyesOpenCloseDevNote != null)
+                eyesOpenCloseDevNote.SetActive(true);
         }
         else {
             Blindfold.SetActive(true);
             if (eyesOpenCloseText != null)
                 eyesOpenCloseText.text = "Closed";
+            if (eyesOpenCloseDevNote != null)
+                eyesOpenCloseDevNote.SetActive(false);
             else
                 Debug.Log("Hey you! Yeah, you! Just and/or Jess!! Assign the EyesOpen's button's Text(TMP) object to the 'Eyes Open Close Text' field!");
         }
-        if (uiSFX != null)
-            uiSFX.PlayButtonClick();
     }
 
     public void OpenClosePauseMenu() {
@@ -88,14 +94,14 @@ public class MenuHandler : MonoBehaviour
     }
 
     public void OpenCloseSettingsMenu() {
+        if (uiSFX != null)
+            uiSFX.PlayButtonClick();
         if (Settings.activeSelf) {
             Settings.SetActive(false);
         }
         else {
             Settings.SetActive(true);
         }
-        if (uiSFX != null)
-            uiSFX.PlayButtonClick();
     }
 
     public void OpenGoalPanel() { // Should be called ONLY on level completion
