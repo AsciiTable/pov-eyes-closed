@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     private Transform camTrans;
     private Vector3 requestedVector = Vector3.zero;
     private Vector3 lookVector = Vector3.zero;
+    private Vector3 startVector = Vector3.zero;
 
     [SerializeField]private float maxSpeed = 10.0f;
     [SerializeField] private float movementSpeed = 1.0f;
@@ -40,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         lookVector = rb.rotation.eulerAngles;
         MouseLookEnabled = true;
+        startVector = transform.position;
     }
 
     private void OnEnable()
@@ -106,6 +109,12 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Step")) {
             isGrounded = true;
             Debug.Log("Collided with step.");
+        }
+        if (collision.gameObject.CompareTag("DeathZone"))
+        {
+            // Play death sound
+            transform.position = startVector;
+            Debug.Log("Collidied with deathzone");
         }
     }
     private void OnCollisionExit(Collision collision)

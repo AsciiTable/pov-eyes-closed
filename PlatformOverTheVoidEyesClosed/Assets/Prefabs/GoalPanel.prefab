@@ -628,7 +628,7 @@ GameObject:
   - component: {fileID: 4459819484996930952}
   - component: {fileID: 4459819484996930951}
   m_Layer: 5
-  m_Name: LevelSelect
+  m_Name: BackToLevelSelect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

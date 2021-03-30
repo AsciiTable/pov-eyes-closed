@@ -66,6 +66,7 @@ public class MenuHandler : MonoBehaviour
                 if (!GoalPanel.activeSelf)
                 {
                     Cursor.lockState = CursorLockMode.Locked;
+                    Cursor.visible = false;
                     player.MouseLookEnabled = true;
                     Time.timeScale = 1.0f;
                 }
@@ -94,6 +95,7 @@ public class MenuHandler : MonoBehaviour
 
     public void OpenGoalPanel() { // Should be called ONLY on level completion
         Cursor.lockState = CursorLockMode.None;
+        player.MouseLookEnabled = false;
         Cursor.visible = true;
         Time.timeScale = 0.0f;
         LevelInformation info = GetComponent<LevelInformation>();

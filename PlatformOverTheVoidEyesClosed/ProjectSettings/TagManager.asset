@@ -9,6 +9,7 @@ TagManager:
   - Locked
   - Step
   - Goal
+  - DeathZone
   layers:
   - Default
   - TransparentFX
