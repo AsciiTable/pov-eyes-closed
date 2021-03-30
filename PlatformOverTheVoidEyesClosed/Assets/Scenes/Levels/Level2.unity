@@ -639,6 +639,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5899767418719886106, guid: f96b1be07b4668440b6f2c1b9cf8a8ab, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 581721136}
+    - target: {fileID: 5899767418719886106, guid: f96b1be07b4668440b6f2c1b9cf8a8ab, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: EnableDisableBlindfoldInPause
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f96b1be07b4668440b6f2c1b9cf8a8ab, type: 3}
 --- !u!224 &221052382 stripped
@@ -688,6 +696,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &221052387 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4000337629572213064, guid: f96b1be07b4668440b6f2c1b9cf8a8ab, type: 3}
+  m_PrefabInstance: {fileID: 221052381}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &221052388 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6243807796942570217, guid: f96b1be07b4668440b6f2c1b9cf8a8ab, type: 3}
+  m_PrefabInstance: {fileID: 221052381}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &361030397 stripped
@@ -1429,7 +1453,7 @@ GameObject:
   - component: {fileID: 988850254}
   m_Layer: 0
   m_Name: Wall (1)
-  m_TagString: Floor
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2170,17 +2194,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1820474077 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2691492442976522517, guid: b38c27a275c84d04fbf618225cec0b80, type: 3}
-  m_PrefabInstance: {fileID: 2691492441575500744}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1908137054
 GameObject:
   m_ObjectHideFlags: 0
@@ -2364,11 +2377,15 @@ PrefabInstance:
     - target: {fileID: 2159644667401013283, guid: 745ea4704dc1a3742ae82be00b3a5554, type: 3}
       propertyPath: eyesOpenCloseText
       value: 
-      objectReference: {fileID: 1820474077}
+      objectReference: {fileID: 221052388}
     - target: {fileID: 2159644667401013283, guid: 745ea4704dc1a3742ae82be00b3a5554, type: 3}
       propertyPath: nextLevelButtonGoal
       value: 
       objectReference: {fileID: 988542525}
+    - target: {fileID: 2159644667401013283, guid: 745ea4704dc1a3742ae82be00b3a5554, type: 3}
+      propertyPath: eyesOpenCloseDevNote
+      value: 
+      objectReference: {fileID: 221052387}
     - target: {fileID: 2159644667401013308, guid: 745ea4704dc1a3742ae82be00b3a5554, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -2954,7 +2971,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8564662847034023770, guid: ff3d673cca9f18b40b1a2dda30e3ecae, type: 3}
       propertyPath: m_TagString
-      value: Floor
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff3d673cca9f18b40b1a2dda30e3ecae, type: 3}

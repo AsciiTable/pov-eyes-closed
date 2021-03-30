@@ -12,28 +12,37 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 lookVector = Vector3.zero;
     private Vector3 startVector = Vector3.zero;
 
-    [SerializeField]private float maxMSpeed = 1.0f;
+    [SerializeField]private float maxSpeed = 10.0f;
     [SerializeField] private float movementSpeed = 1.0f;
-    [SerializeField] private float maxJSpeed = 1.0f;
     [SerializeField] private float jumpSpeed = 1.0f;
     [SerializeField] private float lookSpeed = 1.0f;
     [SerializeField] private float maxVerticalLook = 90.0f;
 
     // Collision checkers & getters
-    [SerializeField]private int groundContacts = 0;
+    [SerializeField]public bool isGrounded = true;
     private bool isCollidingLeft = false;
     private bool isCollidingRight = false;
     private bool isCollidingFront = false;
     private bool isCollidingBack = false;
-    public bool IsGrounded { get { return groundContacts > 0; } }
+    public bool IsGrounded { get { return isGrounded; } }
     public bool IsCollidingLeft { get { return isCollidingLeft; } }
     public bool IsCollidingRight { get { return isCollidingRight; } }
     public bool IsCollidingFront { get { return isCollidingFront; } }
     public bool IsCollidingBack { get { return isCollidingBack; } }
     public bool MouseLookEnabled { get; set; }
+    private bool movementEnabled = true; // This is for times when we can't use timescale
 
     // UI stuff
     [SerializeField] private MenuHandler menuhandling;
+    #region Audio Sources
+    [SerializeField] private AudioSource clearSFX;
+    [SerializeField] private AudioSource deathSFX;
+    [SerializeField] private AudioSource jumpSFX;
+    [SerializeField] private AudioSource landSFX;
+    [SerializeField] private AudioSource wallBumpSFX;
+    private bool walkingIntoWall = false;
+    private float timePassedWalkingIntoWall = 0f;
+    #endregion
 
     void Start()
     {
@@ -50,55 +59,51 @@ public class PlayerMovement : MonoBehaviour
     {
         UpdateHandler.UpdateOccurred += MouseLook;
         UpdateHandler.FixedUpdateOccurred += Movement;
+        UpdateHandler.FixedUpdateOccurred += CheckContinuousCollisions;
     }
 
     private void OnDisable()
     {
         UpdateHandler.UpdateOccurred -= MouseLook;
         UpdateHandler.FixedUpdateOccurred -= Movement;
+        UpdateHandler.FixedUpdateOccurred -= CheckContinuousCollisions;
     }
 
     private void Movement() {
-        // X & Z Movement w/ Mouse Rotation
-        requestedVector = Input.GetAxis("Horizontal") * movementSpeed * camTrans.right;
-        requestedVector += Input.GetAxis("Vertical") * movementSpeed * camTrans.forward;
-        /*
-        requestedVector.y = 0;
-        //Check if movement will hit wall
-        RaycastHit hit;
-        if (rb.SweepTest(requestedVector, out hit, 1.2f))
-        {
-            // If so, stop the movement
-            requestedVector = Vector3.zero;
+        if (movementEnabled) {
+            // X & Z Movement w/ Mouse Rotation
+            requestedVector = Input.GetAxis("Horizontal") * movementSpeed * camTrans.right;
+            requestedVector += Input.GetAxis("Vertical") * movementSpeed * camTrans.forward;
+            /*
+            requestedVector.y = 0;
+            //Check if movement will hit wall
+            RaycastHit hit;
+            if (rb.SweepTest(requestedVector, out hit, 1.2f))
+            {
+                // If so, stop the movement
+                requestedVector = Vector3.zero;
+            }
+            */
+
+            requestedVector.y = rb.velocity.y;
+            //requestedVector = new Vector3(Input.GetAxis("Horizontal")*movementSpeed, rb.velocity.y, Input.GetAxis("Vertical")*movementSpeed);
+            if (requestedVector != Vector3.zero && movementSpeed != 0)
+            {
+                rb.velocity = requestedVector;
+            }
+
+            //  Y Movement - Jump
+            if (Input.GetButton("Jump") && isGrounded)
+            {
+                //if (transform.position.y != lastYPosition) {
+                rb.AddForce(Vector3.up * jumpSpeed);
+                isGrounded = false;
+                //}
+                jumpSFX.Play();
+            }
+            if (rb.velocity.magnitude > maxSpeed)
+                rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
         }
-        */
-
-        //  Y Movement - Jump
-        if (Input.GetButton("Jump") && IsGrounded)
-        {
-            //if (transform.position.y != lastYPosition) {
-            requestedVector.y = jumpSpeed;
-            //groundContacts = 0;
-            //}
-        }
-        else
-           requestedVector.y = rb.velocity.y;
-
-        //requestedVector = new Vector3(Input.GetAxis("Horizontal")*movementSpeed, rb.velocity.y, Input.GetAxis("Vertical")*movementSpeed);
-        if (requestedVector != Vector3.zero && movementSpeed != 0) {
-            rb.velocity = requestedVector;
-        }
-
-        //Clamp the x and z axis
-        requestedVector = rb.velocity;
-        requestedVector.y = 0f;
-        if (requestedVector.magnitude > maxMSpeed)
-            requestedVector = Vector3.ClampMagnitude(requestedVector, maxMSpeed);
-        //Clamp the y axis
-        requestedVector.y = (rb.velocity.y > maxJSpeed) ? maxJSpeed : rb.velocity.y;
-
-        if(requestedVector != rb.velocity)
-            rb.velocity = requestedVector;
     }
 
     private void MouseLook() 
@@ -111,24 +116,37 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void CheckContinuousCollisions() {
+        if (walkingIntoWall) {
+            if (Time.time - timePassedWalkingIntoWall >= 1f) {
+                wallBumpSFX.Play();
+                timePassedWalkingIntoWall = Time.time;
+            }
+        }
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Floor")) {
-            groundContacts += 1;
+            landSFX.Play();
+            isGrounded = true;
             Debug.Log("Collided with floor.");
-
-            //Reset SoundProgression if incomplete
-            if(SoundProgression_Manager.singleton != null && SoundProgression_Manager.singleton.IsFinished)
-                SoundProgression_Manager.singleton.ResetProgress();
         }
         if (collision.gameObject.CompareTag("Step")) {
-            groundContacts += 1;
+            landSFX.Play();
+            isGrounded = true;
             Debug.Log("Collided with step.");
+        }
+        if (collision.gameObject.CompareTag("Wall")) {
+            walkingIntoWall = true;
+            timePassedWalkingIntoWall = Time.time;
+            wallBumpSFX.Play();
+            Debug.Log("Collided with wall.");
         }
         if (collision.gameObject.CompareTag("DeathZone"))
         {
-            // Play death sound
-            transform.position = startVector;
+            deathSFX.Play();
+            StartCoroutine(DeathCooldown());
             Debug.Log("Collidied with deathzone");
         }
     }
@@ -136,7 +154,10 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("Step"))
         {
-            groundContacts -= 1;
+            isGrounded = false;
+        }
+        if (collision.gameObject.CompareTag("Wall")) {
+            walkingIntoWall = false;
         }
     }
 
@@ -144,7 +165,15 @@ public class PlayerMovement : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Goal")){
             menuhandling.OpenGoalPanel();
+            clearSFX.Play();
             Debug.Log("Collided with goal trigger.");
         }
+    }
+
+    IEnumerator DeathCooldown() {
+        movementEnabled = false;
+        yield return new WaitForSeconds(2);
+        movementEnabled = true;
+        transform.position = startVector;
     }
 }
