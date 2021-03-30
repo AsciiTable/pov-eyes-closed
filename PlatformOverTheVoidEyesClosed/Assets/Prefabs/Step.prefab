@@ -12,10 +12,11 @@ GameObject:
   - component: {fileID: 1680410366389784214}
   - component: {fileID: 3867160124016022576}
   - component: {fileID: 5652054705759415849}
+  - component: {fileID: 2334690003417661617}
   - component: {fileID: 1734887592633106113}
   m_Layer: 0
   m_Name: StepTrigger
-  m_TagString: Wall
+  m_TagString: Step
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -96,6 +97,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2334690003417661617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3695385935670291675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41ede57aaf1f8774882cf5cc5e3267bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1734887592633106113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,7 +136,7 @@ GameObject:
   - component: {fileID: 8564662847034023768}
   m_Layer: 0
   m_Name: Step
-  m_TagString: Step
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -170,7 +183,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f401f40b29acd804498af9be175e141f, type: 2}
+  - {fileID: 2100000, guid: a19a85f39ae3e6440adea8153a1bc657, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -199,7 +212,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8564662847034023770}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 2ea58184955d6ea44891c52d967b3176, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2

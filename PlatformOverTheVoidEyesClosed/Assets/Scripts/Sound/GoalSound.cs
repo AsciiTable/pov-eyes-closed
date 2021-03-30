@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GoalSound : MonoBehaviour
+public class GoalSound : ProgressionNode
 {
     //Music that pits will play
     AudioSource music = null;

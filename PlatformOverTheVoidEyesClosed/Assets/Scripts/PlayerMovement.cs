@@ -41,7 +41,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private AudioSource jumpSFX;
     [SerializeField] private AudioSource landSFX;
     [SerializeField] private AudioSource wallBumpSFX;
-    private bool walkingIntoWall = false;
+    private int walkingIntoWall = 0;
+    public bool TouchingWall { get => walkingIntoWall > 0; 
+        set => walkingIntoWall = (value) ? 2 : 0; }
     private float timePassedWalkingIntoWall = 0f;
     #endregion
 
@@ -88,7 +90,6 @@ public class PlayerMovement : MonoBehaviour
             else
                 requestedVector.y = rb.velocity.y;
 
-            requestedVector.y = rb.velocity.y;
             //requestedVector = new Vector3(Input.GetAxis("Horizontal")*movementSpeed, rb.velocity.y, Input.GetAxis("Vertical")*movementSpeed);
             if (requestedVector != Vector3.zero && movementSpeed != 0)
             {
@@ -116,8 +117,15 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void CheckContinuousCollisions() {
-        if (walkingIntoWall) {
-            if (Time.time - timePassedWalkingIntoWall >= 1f) {
+        if (TouchingWall) {
+            if (Input.GetButton("Horizontal") || Input.GetButton("Vertical"))
+            {
+                walkingIntoWall = 2;
+            }
+            else
+                walkingIntoWall = 1;
+            
+            if (walkingIntoWall == 2 && Time.time - timePassedWalkingIntoWall >= 1f) {
                 wallBumpSFX.Play();
                 timePassedWalkingIntoWall = Time.time;
             }
@@ -131,13 +139,8 @@ public class PlayerMovement : MonoBehaviour
             groundContacts += 1;
             Debug.Log("Collided with floor.");
         }
-        if (collision.gameObject.CompareTag("Step")) {
-            landSFX.Play();
-            groundContacts += 1;
-            Debug.Log("Collided with step.");
-        }
         if (collision.gameObject.CompareTag("Wall")) {
-            walkingIntoWall = true;
+            TouchingWall = true;
             timePassedWalkingIntoWall = Time.time;
             wallBumpSFX.Play();
             Debug.Log("Collided with wall.");
@@ -158,16 +161,31 @@ public class PlayerMovement : MonoBehaviour
                 groundContacts = 0;
         }
         if (collision.gameObject.CompareTag("Wall")) {
-            walkingIntoWall = false;
+            TouchingWall = false;
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.CompareTag("Step"))
+        {
+            landSFX.Play();
+            groundContacts += 1;
+            Debug.Log("Collided with step.");
+        }
         if (other.gameObject.CompareTag("Goal")){
             menuhandling.OpenGoalPanel();
             clearSFX.Play();
             Debug.Log("Collided with goal trigger.");
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Step"))
+        {
+            groundContacts -= 1;
+            if (groundContacts < 0)
+                groundContacts = 0;
         }
     }
 
