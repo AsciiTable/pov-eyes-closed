@@ -22,17 +22,18 @@ public class LevelInformation : MonoBehaviour
 
     public string GetTimeString() {
         timer = Time.timeSinceLevelLoad;
+        Debug.Log("Time in seconds: " + timer);
         int hours = 0;
         int minutes = 0;
         float seconds = 0;
         if (timer >= 3600)
         { // if it's been an hour +
-            hours = (int)(timer % 3600);
+            hours = (int)(timer / 3600);
             timer = timer - (hours * 3600);
         }
         if (timer >= 60)
         { // if it's been over a minute
-            minutes = (int)(timer % 60);
+            minutes = (int)(timer / 60);
             timer = timer - (minutes * 60);
         }
         seconds = (float)timer;
@@ -43,7 +44,6 @@ public class LevelInformation : MonoBehaviour
             return minutes.ToString() + ":" + seconds.ToString("F2");
         else if (hours != 0)
             return hours.ToString() + ":" + minutes.ToString() + ":" + seconds.ToString("F2");
-
         return "You'll never know :)";
     }
 }
