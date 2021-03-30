@@ -9,7 +9,8 @@ public class PlayerMovement : MonoBehaviour
     private Transform camTrans;
     private Vector3 requestedVector = Vector3.zero;
     private Vector3 lookVector = Vector3.zero;
-    
+
+    [SerializeField]private float maxSpeed = 10.0f;
     [SerializeField] private float movementSpeed = 1.0f;
     [SerializeField] private float jumpSpeed = 1.0f;
     [SerializeField] private float lookSpeed = 1.0f;
@@ -70,8 +71,9 @@ public class PlayerMovement : MonoBehaviour
 
         requestedVector.y = rb.velocity.y;
         //requestedVector = new Vector3(Input.GetAxis("Horizontal")*movementSpeed, rb.velocity.y, Input.GetAxis("Vertical")*movementSpeed);
-        if(requestedVector != Vector3.zero && movementSpeed != 0)
+        if (requestedVector != Vector3.zero && movementSpeed != 0) {
             rb.velocity = requestedVector;
+        }
 
         //  Y Movement - Jump
         if (Input.GetButton("Jump")&&isGrounded)
@@ -81,6 +83,8 @@ public class PlayerMovement : MonoBehaviour
                 isGrounded = false;
             //}
         }
+        if (rb.velocity.magnitude > maxSpeed)
+            rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
     }
 
     private void MouseLook() 
