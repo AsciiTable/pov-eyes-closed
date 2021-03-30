@@ -8,6 +8,7 @@ public class SoundProgression_Manager : MonoBehaviour
 
     [SerializeField] ProgressionNode[] progressionList = null;
     private int currentID = -1;
+    public bool IsFinished { get => currentID == progressionList.Length - 1; }
 
     private AudioSource music = null;
 
@@ -36,6 +37,10 @@ public class SoundProgression_Manager : MonoBehaviour
         Progress(-1);
     }
 
+    public void ResetProgress()
+    {
+        Progress(-1);
+    }
     public void Progress(int id) 
     {
         if (id >= progressionList.Length || id < -1)

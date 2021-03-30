@@ -6,7 +6,7 @@ public class GoalSound : MonoBehaviour
 {
     //Music that pits will play
     AudioSource music = null;
-    Transform playerTrans = null;
+    Transform camTrans = null;
 
     [Header("MUSIC SETTINGS")]
     [SerializeField] float maxVolume = 0.7f;
@@ -25,13 +25,13 @@ public class GoalSound : MonoBehaviour
     void Start()
     {
         music = GetComponent<AudioSource>();
-        playerTrans = GameObject.FindGameObjectWithTag("Player").transform;
+        camTrans = GameObject.FindGameObjectWithTag("MainCamera").transform;
     }
 
     // Update is called once per frame
     void Update()
     {
-        float playerAngle = playerTrans.rotation.eulerAngles.y;
+        float playerAngle = camTrans.rotation.eulerAngles.y;
 
         //Adjust volume (mute if facing other direction
         if (playerAngle >= 180 - deltaBack && playerAngle <= 180 + deltaBack)

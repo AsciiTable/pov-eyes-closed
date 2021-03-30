@@ -12,19 +12,20 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 lookVector = Vector3.zero;
     private Vector3 startVector = Vector3.zero;
 
-    [SerializeField]private float maxSpeed = 10.0f;
+    [SerializeField]private float maxMSpeed = 1.0f;
     [SerializeField] private float movementSpeed = 1.0f;
+    [SerializeField] private float maxJSpeed = 1.0f;
     [SerializeField] private float jumpSpeed = 1.0f;
     [SerializeField] private float lookSpeed = 1.0f;
     [SerializeField] private float maxVerticalLook = 90.0f;
 
     // Collision checkers & getters
-    [SerializeField]public bool isGrounded = true;
+    [SerializeField]private int groundContacts = 0;
     private bool isCollidingLeft = false;
     private bool isCollidingRight = false;
     private bool isCollidingFront = false;
     private bool isCollidingBack = false;
-    public bool IsGrounded { get { return isGrounded; } }
+    public bool IsGrounded { get { return groundContacts > 0; } }
     public bool IsCollidingLeft { get { return isCollidingLeft; } }
     public bool IsCollidingRight { get { return isCollidingRight; } }
     public bool IsCollidingFront { get { return isCollidingFront; } }
@@ -72,22 +73,32 @@ public class PlayerMovement : MonoBehaviour
         }
         */
 
-        requestedVector.y = rb.velocity.y;
+        //  Y Movement - Jump
+        if (Input.GetButton("Jump") && IsGrounded)
+        {
+            //if (transform.position.y != lastYPosition) {
+            requestedVector.y = jumpSpeed;
+            //groundContacts = 0;
+            //}
+        }
+        else
+           requestedVector.y = rb.velocity.y;
+
         //requestedVector = new Vector3(Input.GetAxis("Horizontal")*movementSpeed, rb.velocity.y, Input.GetAxis("Vertical")*movementSpeed);
         if (requestedVector != Vector3.zero && movementSpeed != 0) {
             rb.velocity = requestedVector;
         }
 
-        //  Y Movement - Jump
-        if (Input.GetButton("Jump")&&isGrounded)
-        {
-            //if (transform.position.y != lastYPosition) {
-                rb.AddForce(Vector3.up * jumpSpeed);
-                isGrounded = false;
-            //}
-        }
-        if (rb.velocity.magnitude > maxSpeed)
-            rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
+        //Clamp the x and z axis
+        requestedVector = rb.velocity;
+        requestedVector.y = 0f;
+        if (requestedVector.magnitude > maxMSpeed)
+            requestedVector = Vector3.ClampMagnitude(requestedVector, maxMSpeed);
+        //Clamp the y axis
+        requestedVector.y = (rb.velocity.y > maxJSpeed) ? maxJSpeed : rb.velocity.y;
+
+        if(requestedVector != rb.velocity)
+            rb.velocity = requestedVector;
     }
 
     private void MouseLook() 
@@ -103,11 +114,15 @@ public class PlayerMovement : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Floor")) {
-            isGrounded = true;
+            groundContacts += 1;
             Debug.Log("Collided with floor.");
+
+            //Reset SoundProgression if incomplete
+            if(SoundProgression_Manager.singleton != null && SoundProgression_Manager.singleton.IsFinished)
+                SoundProgression_Manager.singleton.ResetProgress();
         }
         if (collision.gameObject.CompareTag("Step")) {
-            isGrounded = true;
+            groundContacts += 1;
             Debug.Log("Collided with step.");
         }
         if (collision.gameObject.CompareTag("DeathZone"))
@@ -121,7 +136,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("Step"))
         {
-            isGrounded = false;
+            groundContacts -= 1;
         }
     }
 
