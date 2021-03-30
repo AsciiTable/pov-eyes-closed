@@ -26,11 +26,12 @@ public class MenuHandler : MonoBehaviour
     [SerializeField] private GameObject nextLevelButtonGoal;
     [SerializeField] private TextMeshProUGUI timerTextGoal;
     #endregion
-    
+    private UISFXHandler uiSFX;
+
     private void OnEnable()
     {
         UpdateHandler.UpdateOccurred += CheckForPauseOnUpdate;
-        
+        uiSFX = GameObject.Find("UISFX").GetComponent<UISFXHandler>();
     }
     private void OnDisable()
     {
@@ -57,6 +58,8 @@ public class MenuHandler : MonoBehaviour
             else
                 Debug.Log("Hey you! Yeah, you! Just and/or Jess!! Assign the EyesOpen's button's Text(TMP) object to the 'Eyes Open Close Text' field!");
         }
+        if (uiSFX != null)
+            uiSFX.PlayButtonClick();
     }
 
     public void OpenClosePauseMenu() {
@@ -91,6 +94,8 @@ public class MenuHandler : MonoBehaviour
         else {
             Settings.SetActive(true);
         }
+        if (uiSFX != null)
+            uiSFX.PlayButtonClick();
     }
 
     public void OpenGoalPanel() { // Should be called ONLY on level completion
