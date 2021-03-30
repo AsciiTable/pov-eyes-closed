@@ -9,7 +9,6 @@ public class PlayerMovement : MonoBehaviour
     private Transform camTrans;
     private Vector3 requestedVector = Vector3.zero;
     private Vector3 lookVector = Vector3.zero;
-    private float lastYPosition = 0f;
     
     [SerializeField] private float movementSpeed = 1.0f;
     [SerializeField] private float jumpSpeed = 1.0f;
@@ -17,7 +16,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float maxVerticalLook = 90.0f;
 
     // Collision checkers & getters
-    private bool isGrounded = true;
+    [SerializeField]public bool isGrounded = true;
     private bool isCollidingLeft = false;
     private bool isCollidingRight = false;
     private bool isCollidingFront = false;
@@ -40,7 +39,6 @@ public class PlayerMovement : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         lookVector = rb.rotation.eulerAngles;
         MouseLookEnabled = true;
-        lastYPosition = transform.position.y;
     }
 
     private void OnEnable()
@@ -75,7 +73,6 @@ public class PlayerMovement : MonoBehaviour
         if(requestedVector != Vector3.zero && movementSpeed != 0)
             rb.velocity = requestedVector;
 
-
         //  Y Movement - Jump
         if (Input.GetButton("Jump")&&isGrounded)
         {
@@ -84,8 +81,6 @@ public class PlayerMovement : MonoBehaviour
                 isGrounded = false;
             //}
         }
-        //if (transform.position.y != lastYPosition)
-            //lastYPosition = transform.position.y;
     }
 
     private void MouseLook() 
@@ -102,21 +97,26 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Floor")) {
             isGrounded = true;
-            lastYPosition = trans.position.y;
             Debug.Log("Collided with floor.");
+        }
+        if (collision.gameObject.CompareTag("Step")) {
+            isGrounded = true;
+            Debug.Log("Collided with step.");
+        }
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("Step"))
+        {
+            isGrounded = false;
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Step") || other.gameObject.gameObject.CompareTag("Floor")) {
-            isGrounded = true;
-            lastYPosition = trans.position.y;
-            Debug.Log("Collided with floor.");
-        }
         if (other.gameObject.CompareTag("Goal")){
             menuhandling.OpenGoalPanel();
-            Debug.Log("Collided with goal");
+            Debug.Log("Collided with goal trigger.");
         }
     }
 }
