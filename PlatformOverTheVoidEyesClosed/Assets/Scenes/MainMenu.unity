@@ -584,7 +584,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 344691785}
   serializedVersion: 7
-  lengthInSec: 10
+  lengthInSec: 3
   simulationSpeed: 0.4
   stopAction: 0
   cullingMode: 0
@@ -649,8 +649,8 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
-  moveWithCustomTransform: {fileID: 0}
+  moveWithTransform: 2
+  moveWithCustomTransform: {fileID: 2082414376}
   scalingMode: 1
   randomSeed: 0
   InitialModule:
@@ -1144,7 +1144,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 10
+    maxNumParticles: 20
     size3D: 0
     rotation3D: 0
     gravityModifier:
