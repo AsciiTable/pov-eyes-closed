@@ -11,9 +11,6 @@ public class Pit : MonoBehaviour
     private bool horizontal = false;
     bool connected = false;
 
-    [Tooltip("How close player needs to be to wall")]
-    [SerializeField] private float radius = 5;
-
     [SerializeField] float volume = 0.3f;
 
     // Start is called before the first frame update
