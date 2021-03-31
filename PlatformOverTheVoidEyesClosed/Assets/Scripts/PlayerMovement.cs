@@ -21,11 +21,15 @@ public class PlayerMovement : MonoBehaviour
 
     // Collision checkers & getters
     [SerializeField]public int groundContacts = 0;
+    [SerializeField] private int wallContacts = 0;
+    private bool walkingIntoWall = false;
     private bool isCollidingLeft = false;
     private bool isCollidingRight = false;
     private bool isCollidingFront = false;
     private bool isCollidingBack = false;
     public bool IsGrounded { get { return groundContacts > 0; } }
+    public bool TouchingWall{ get => wallContacts > 0;
+        set { wallContacts = (value ? 1 : -1) + (wallContacts < 0 ? 0 : wallContacts); } }
     public bool IsCollidingLeft { get { return isCollidingLeft; } }
     public bool IsCollidingRight { get { return isCollidingRight; } }
     public bool IsCollidingFront { get { return isCollidingFront; } }
@@ -41,9 +45,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private AudioSource jumpSFX;
     [SerializeField] private AudioSource landSFX;
     [SerializeField] private AudioSource wallBumpSFX;
-    private int walkingIntoWall = 0;
-    public bool TouchingWall { get => walkingIntoWall > 0; 
-        set => walkingIntoWall = (value) ? 2 : 0; }
+
     private float timePassedWalkingIntoWall = 0f;
     #endregion
 
@@ -117,19 +119,23 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void CheckContinuousCollisions() {
-        if (TouchingWall) {
+        if (TouchingWall)
+        {
             if (Input.GetButton("Horizontal") || Input.GetButton("Vertical"))
             {
-                walkingIntoWall = 2;
+                walkingIntoWall = true;
             }
             else
-                walkingIntoWall = 1;
-            
-            if (walkingIntoWall == 2 && Time.time - timePassedWalkingIntoWall >= 1f) {
+                walkingIntoWall = false;
+
+            if (walkingIntoWall && Time.time - timePassedWalkingIntoWall >= 1f)
+            {
                 wallBumpSFX.Play();
                 timePassedWalkingIntoWall = Time.time;
             }
         }
+        else
+            walkingIntoWall = false;
     }
 
     private void OnCollisionEnter(Collision collision)
