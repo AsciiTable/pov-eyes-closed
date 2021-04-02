@@ -43,14 +43,22 @@ public class EdgeIndicator : MonoBehaviour
         //Set angle from absolute to 0-360
         float rCheck = Vector3.Angle(targetDir, camTrans.right);
         float lCheck = Vector3.Angle(targetDir, -camTrans.right);
+        Debug.Log("angle before: " + angle);
+
         if (lCheck > rCheck)
             angle = 360 - angle;
 
+        Debug.Log("angle after: " + angle);
         //Adjust volume (mute if facing other direction
         if (angle >= 180 - deltaBack && angle <= 180 + deltaBack)
         {
-            float bAngle = angle - 180;
-            float magnitude = Mathf.Abs(angle / deltaBack) - (backSuppress / deltaBack);
+            float magnitude = 0;
+            if(angle < 180 - backSuppress || angle > 180 + backSuppress)
+            {
+                float bAngle = angle - 180;
+                magnitude = Mathf.Abs(bAngle / deltaBack);
+            }
+            
             music.volume = minVolume + magnitude * (maxVolume - minVolume);
         }
         else
@@ -60,16 +68,26 @@ public class EdgeIndicator : MonoBehaviour
         if (angle >= 90 - deltaEars && angle <= 90 + deltaEars)
         {
             //60 - 120
-            float rAngle = angle - 90 - earSuppress;
-            float magnitude = -1 + Mathf.Abs(rAngle / deltaEars);
-            music.panStereo = magnitude - (earSuppress / deltaBack);
+            float magnitude = -1;
+            if (angle < 90 - earSuppress || angle > 90 + earSuppress)
+            {
+                float rAngle = angle - 90 - earSuppress;
+                magnitude += Mathf.Abs(rAngle / deltaEars);
+            }
+                
+            music.panStereo = magnitude;
         }
         //Adjust stero pan (mute left ear)
         else if (angle >= 270 - deltaEars && angle <= 270 + deltaEars)
         {
-            float lAngle = angle - 270 - earSuppress;
-            float magnitude = 1 - Mathf.Abs(lAngle / deltaEars);
-            music.panStereo = magnitude + (earSuppress / deltaBack);
+            float magnitude = 1;
+            if (angle < 270 - earSuppress || angle > 270 + earSuppress)
+            {
+                float lAngle = angle - 270 - earSuppress;
+                magnitude -= Mathf.Abs(lAngle / deltaEars);
+            }
+
+            music.panStereo = magnitude;
         }
         else
             music.panStereo = 0;
