@@ -44,6 +44,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private AudioSource deathSFX;
     [SerializeField] private AudioSource jumpSFX;
     [SerializeField] private AudioSource landSFX;
+    [SerializeField] private AudioSource landStepSFX;
+    [SerializeField] private AudioSource landPlatSFX;
     [SerializeField] private AudioSource wallBumpSFX;
 
     private float timePassedWalkingIntoWall = 0f;
@@ -141,9 +143,22 @@ public class PlayerMovement : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Floor")) {
-            landSFX.Play();
+            if(!IsGrounded)
+                landSFX.Play();
             groundContacts += 1;
             Debug.Log("Collided with floor.");
+            SoundProgression_Manager.singleton.FallDown();
+        }
+        if (collision.gameObject.CompareTag("Platform"))
+        {
+            //Change pitch based on y axis
+            int level = Mathf.FloorToInt(collision.transform.position.y) / 2;
+            landPlatSFX.pitch = 1f + (level * 0.5f);
+
+            landPlatSFX.Play();
+            groundContacts += 1;
+            Debug.Log("Collided with platform.");
+            SoundProgression_Manager.singleton.FallDown();
         }
         if (collision.gameObject.CompareTag("Wall")) {
             TouchingWall = true;
@@ -160,7 +175,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("Step"))
+        if (collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("Platform"))
         {
             groundContacts -= 1;
             if (groundContacts < 0)
@@ -175,9 +190,18 @@ public class PlayerMovement : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Step"))
         {
-            landSFX.Play();
+            if((other.transform.parent.position.y > 0) || !IsGrounded)
+            {
+                //Change pitch based on y axis
+                int level = Mathf.FloorToInt(other.transform.parent.position.y) / 2;
+                landStepSFX.pitch = 1f + (level * 0.5f);
+
+                landStepSFX.Play();
+            }
             groundContacts += 1;
             Debug.Log("Collided with step.");
+
+
         }
         if (other.gameObject.CompareTag("Goal")){
             menuhandling.OpenGoalPanel();

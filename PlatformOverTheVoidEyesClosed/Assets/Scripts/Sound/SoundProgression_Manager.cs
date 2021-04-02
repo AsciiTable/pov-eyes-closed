@@ -14,6 +14,7 @@ public class SoundProgression_Manager : MonoBehaviour
     public bool IsFinished { get => currentID == progressionList.Length - 1; }
 
     private AudioSource music = null;
+    private FollowNode follow = null;
 
     [Header("MUSIC SETTINGS")]
     [SerializeField] float musicVolume = 0.5f;
@@ -31,6 +32,8 @@ public class SoundProgression_Manager : MonoBehaviour
     void Start()
     {
         music = GetComponentInChildren<AudioSource>();
+        if(music.GetComponent<FollowNode>() != null)
+            follow = music.GetComponent<FollowNode>();
 
         for(int i = 0; i < progressionList.Length; i++)
         {
@@ -62,13 +65,27 @@ public class SoundProgression_Manager : MonoBehaviour
         {
             music.transform.position = progressionList[id + 1].transform.position;
             progressionList[id + 1].NextNode = true;
-            progressionList[id].NextNode = false;
+            if(id >= 0)
+                progressionList[id].NextNode = false;
+
+            if(checkpoints.Length > 0)
+            {
+                while (checkpoints[checkpointIndex + 1] < id)
+                    checkpointIndex++;
+            }
             Play();
         }
-        else
-            Mute();
 
         currentID = id;
+        if (follow != null)
+        {
+            if (currentID == progressionList.Length - 2)
+                follow.enabled = false;
+            else follow.enabled = true;
+        }
+            
+
+
     }
     public void Mute()
     {

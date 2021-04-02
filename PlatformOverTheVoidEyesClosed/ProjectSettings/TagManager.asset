@@ -10,6 +10,7 @@ TagManager:
   - Step
   - Goal
   - DeathZone
+  - Platform
   layers:
   - Default
   - TransparentFX

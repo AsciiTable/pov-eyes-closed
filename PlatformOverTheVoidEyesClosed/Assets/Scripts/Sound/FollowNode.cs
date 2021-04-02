@@ -9,11 +9,20 @@ public class FollowNode : MonoBehaviour
 
     [SerializeField] Axis axis = Axis.x;
 
+    private void OnEnable()
+    {
+        UpdateHandler.UpdateOccurred += FollowPlayer;
+    }
+    private void OnDisable()
+    {
+        UpdateHandler.UpdateOccurred -= FollowPlayer;
+    }
+
     private void Start()
     {
         playerTrans = GameObject.FindGameObjectWithTag("Player").transform;
     }
-    private void Update()
+    private void FollowPlayer()
     {
         Vector3 follow = transform.position;
 

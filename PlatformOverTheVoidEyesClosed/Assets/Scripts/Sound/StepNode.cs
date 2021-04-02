@@ -28,8 +28,10 @@ public class StepNode : ProgressionNode
     {
         if (col.gameObject.CompareTag("Player"))
             if (progressionID >= 0)
-                if(col.transform.position.y >= transform.position.y)
+                if(col.transform.position.y >= transform.parent.position.y)
+                {
                     SoundProgression_Manager.singleton.Progress(progressionID);
+                }
     }
     private void PassedPlayer()
     {
