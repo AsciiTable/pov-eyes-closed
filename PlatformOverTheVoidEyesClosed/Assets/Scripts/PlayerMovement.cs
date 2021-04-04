@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     private Transform camTrans;
     private BoxCollider col;
     private PhysicMaterial frictionless;
-    private Vector3 requestedVector = Vector3.zero;
+    [SerializeField] private Vector3 requestedVector = Vector3.zero;
     private Vector3 lookVector = Vector3.zero;
     private Vector3 startVector = Vector3.zero;
 
@@ -87,7 +87,7 @@ public class PlayerMovement : MonoBehaviour
             // X & Z Movement w/ Mouse Rotation
             requestedVector = Input.GetAxis("Horizontal") * movementSpeed * camTrans.right;
             requestedVector += Input.GetAxis("Vertical") * movementSpeed * camTrans.forward;
-
+        
             //  Y Movement - Jump
             if (Input.GetButton("Jump") && IsGrounded)
             {
@@ -122,6 +122,8 @@ public class PlayerMovement : MonoBehaviour
                 requestedVector = Vector3.ClampMagnitude(requestedVector, maxMSpeed);
             //Clamp the y axis
             requestedVector.y = (rb.velocity.y > maxJSpeed) ? maxJSpeed : rb.velocity.y;
+
+            rb.velocity = requestedVector;
         }
     }
 
