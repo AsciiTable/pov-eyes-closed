@@ -281,7 +281,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5030870051697610220, guid: 66d0b13c9eee8f84cbcd86ec9252230a, type: 3}
       propertyPath: maxVolume
-      value: 0.7
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5030870051697610220, guid: 66d0b13c9eee8f84cbcd86ec9252230a, type: 3}
       propertyPath: minVolume
@@ -707,7 +707,7 @@ MonoBehaviour:
   - {fileID: 710486452}
   currentID: -1
   checkpoints: ffffffff01000000040000000b000000
-  musicVolume: 0.7
+  musicVolume: 1
 --- !u!1 &269626510
 GameObject:
   m_ObjectHideFlags: 0
@@ -832,6 +832,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2012259172}
     m_Modifications:
+    - target: {fileID: 641206425368552434, guid: 8a042b2693bf02a468baa7c5f0dc8791, type: 3}
+      propertyPath: maxVolume
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 1185931835568428162, guid: 8a042b2693bf02a468baa7c5f0dc8791, type: 3}
       propertyPath: m_Name
       value: Pit (1)
@@ -2123,6 +2127,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1145871764}
   - component: {fileID: 1145871765}
+  - component: {fileID: 1145871766}
   m_Layer: 0
   m_Name: SoundNode
   m_TagString: Untagged
@@ -2200,7 +2205,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -2240,6 +2245,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1145871766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1145871763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90fa5d95176a9124698572002b965ee7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxVolume: 0.7
+  minVolume: 0
+  deltaEars: 30
+  deltaBack: 90
+  backSuppress: 10
+  earSuppress: 10
 --- !u!114 &1189141964 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2889394830384852404, guid: 5ee171f29abc8f249a1cdc8cda55292f, type: 3}
@@ -2756,6 +2779,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2012259172}
     m_Modifications:
+    - target: {fileID: 641206425368552434, guid: 8a042b2693bf02a468baa7c5f0dc8791, type: 3}
+      propertyPath: maxVolume
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 1185931835568428162, guid: 8a042b2693bf02a468baa7c5f0dc8791, type: 3}
       propertyPath: m_Name
       value: Pit (2)
@@ -3325,6 +3352,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2012259172}
     m_Modifications:
+    - target: {fileID: 641206425368552434, guid: 8a042b2693bf02a468baa7c5f0dc8791, type: 3}
+      propertyPath: maxVolume
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 1185931835568428162, guid: 8a042b2693bf02a468baa7c5f0dc8791, type: 3}
       propertyPath: m_Name
       value: Pit

@@ -59,6 +59,6 @@ public class PitNode : MonoBehaviour
     {
         int level = Mathf.FloorToInt(playerTrans.position.y / 1.5f);
 
-        soundFX.volume = maxVolume - level * decreaseStep;
+        soundFX.volume = GameSettingHandler.SFXVolume * (maxVolume - level * decreaseStep);
     }
 }

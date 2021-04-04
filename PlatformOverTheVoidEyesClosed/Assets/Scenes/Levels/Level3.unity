@@ -322,14 +322,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5030870051697610220, guid: 66d0b13c9eee8f84cbcd86ec9252230a, type: 3}
-      propertyPath: maxVolume
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 5030870051697610220, guid: 66d0b13c9eee8f84cbcd86ec9252230a, type: 3}
-      propertyPath: minVolume
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5030870051697610222, guid: 66d0b13c9eee8f84cbcd86ec9252230a, type: 3}
       propertyPath: m_audioClip
       value: 
@@ -749,7 +741,7 @@ MonoBehaviour:
   - {fileID: 925858845}
   currentID: -1
   checkpoints: ffffffff0300000004000000050000000a000000
-  musicVolume: 0.7
+  musicVolume: 1
 --- !u!1 &269626510
 GameObject:
   m_ObjectHideFlags: 0
@@ -1934,6 +1926,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1145871764}
   - component: {fileID: 1145871765}
+  - component: {fileID: 1145871766}
   m_Layer: 0
   m_Name: SoundNode
   m_TagString: Untagged
@@ -2051,6 +2044,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1145871766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1145871763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90fa5d95176a9124698572002b965ee7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxVolume: 0.7
+  minVolume: 0
+  deltaEars: 90
+  deltaBack: 90
+  backSuppress: 10
+  earSuppress: 10
 --- !u!1001 &1272398767
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -259,7 +259,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5030870051697610220, guid: 66d0b13c9eee8f84cbcd86ec9252230a, type: 3}
       propertyPath: maxVolume
-      value: 0.7
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5030870051697610220, guid: 66d0b13c9eee8f84cbcd86ec9252230a, type: 3}
       propertyPath: minVolume

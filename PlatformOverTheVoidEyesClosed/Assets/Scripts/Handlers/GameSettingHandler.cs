@@ -12,6 +12,10 @@ public class GameSettingHandler : MonoBehaviour
     public TextMeshProUGUI sfxDisplayValue;
     public TextMeshProUGUI bgmDisplayValue;
 
+    static GameSettingHandler singleton = null;
+    public static float SFXVolume { get => singleton.settings.sfxVolumeScale; }
+    public static float BGMVolume { get => singleton.settings.bgmVolumeScale; }
+
     private void Start()
     {
         settings = new GameSettings();

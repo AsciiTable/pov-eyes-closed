@@ -45,8 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f1bc0e10344aba4e9f09288bbdcac17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxVolume: 0.3
-  minVolume: 0.1
+  progressionID: -1
+  maxVolume: 1
+  minVolume: 0
   deltaEars: 30
   deltaBack: 90
   backSuppress: 20

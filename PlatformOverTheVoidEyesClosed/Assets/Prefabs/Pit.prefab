@@ -140,7 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26fa02e68edc5404b8e0d5a7f0890513, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxVolume: 0.5
+  maxVolume: 0.4
   decreaseStep: 0.15
 --- !u!82 &1185931836990804515
 AudioSource:
@@ -162,7 +162,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 4
+  MinDistance: 0
   MaxDistance: 6
   Pan2D: 0
   rolloffMode: 1

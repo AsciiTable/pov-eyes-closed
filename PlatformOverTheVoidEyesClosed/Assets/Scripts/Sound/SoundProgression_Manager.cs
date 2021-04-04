@@ -94,6 +94,6 @@ public class SoundProgression_Manager : MonoBehaviour
     }
     public void Play()
     {
-        music.volume = musicVolume;
+        music.volume = GameSettingHandler.BGMVolume * musicVolume;
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GoalSound : ProgressionNode
+public class GoalNode : ProgressionNode
 {
     //Music that pits will play
     AudioSource music = null;
@@ -10,14 +10,14 @@ public class GoalSound : ProgressionNode
 
     [Header("MUSIC SETTINGS")]
     [SerializeField] float maxVolume = 0.7f;
-    [SerializeField] float minVolume = 0.2f;
+    [SerializeField] float minVolume = 0f;
 
     [Tooltip("Angle range from left and right of player to determine when stero pan starts adjusting")]
-    [SerializeField] float deltaEars = 90f;
+    [SerializeField] float deltaEars = 30f;
     [Tooltip("Angle range from back of player to determine when volume starts silencing")]
     [SerializeField] float deltaBack = 90f;
     [Tooltip("Range for angle when back's magnitude become 0")]
-    [SerializeField] float backSuppress = 10f;
+    [SerializeField] float backSuppress = 20f;
     [Tooltip("Range for angle when ear's stereo pan maxes")]
     [SerializeField] float earSuppress = 10f;
 
@@ -38,10 +38,10 @@ public class GoalSound : ProgressionNode
         {
             float angle = playerAngle - 180;
             float magnitude = Mathf.Abs(angle / deltaBack) - (backSuppress / deltaBack);
-            music.volume = minVolume + magnitude * (maxVolume - minVolume);
+            music.volume = GameSettingHandler.BGMVolume * (minVolume + magnitude * (maxVolume - minVolume));
         }
         else
-            music.volume = maxVolume;
+            music.volume = GameSettingHandler.BGMVolume * maxVolume;
 
         //Adjust stero pan (mute right ear)
         if (playerAngle >= 90 - deltaEars && playerAngle <= 90 + deltaEars)

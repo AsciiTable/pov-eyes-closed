@@ -8,6 +8,8 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody rb;
     private Transform trans;
     private Transform camTrans;
+    private BoxCollider col;
+    private PhysicMaterial frictionless;
     private Vector3 requestedVector = Vector3.zero;
     private Vector3 lookVector = Vector3.zero;
     private Vector3 startVector = Vector3.zero;
@@ -40,6 +42,8 @@ public class PlayerMovement : MonoBehaviour
     // UI stuff
     [SerializeField] private MenuHandler menuhandling;
     #region Audio Sources
+    [SerializeField] private float soundVolume = 1f;
+    [SerializeField] private float goalVolume = 1f;
     [SerializeField] private AudioSource clearSFX;
     [SerializeField] private AudioSource deathSFX;
     [SerializeField] private AudioSource jumpSFX;
@@ -55,6 +59,8 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = this.GetComponent<Rigidbody>();
         trans = this.GetComponent<Transform>();
+        col = GetComponent<BoxCollider>();
+        frictionless = col.material;
         camTrans = GameObject.FindGameObjectWithTag("MainCamera").transform;
         Cursor.lockState = CursorLockMode.Locked;
         lookVector = rb.rotation.eulerAngles;
@@ -85,14 +91,23 @@ public class PlayerMovement : MonoBehaviour
             //  Y Movement - Jump
             if (Input.GetButton("Jump") && IsGrounded)
             {
+                //Make player's material frictionless before jumping
+                col.material = frictionless;
+
                 //if (transform.position.y != lastYPosition) {
                 requestedVector.y = jumpSpeed;
+                jumpSFX.volume = soundVolume * GameSettingHandler.SFXVolume;
                 jumpSFX.Play();
                 //groundContacts = 0;
                 //}
             }
             else
+            {
                 requestedVector.y = rb.velocity.y;
+                if(IsGrounded)
+                    col.material = null;
+            }
+                
 
             //requestedVector = new Vector3(Input.GetAxis("Horizontal")*movementSpeed, rb.velocity.y, Input.GetAxis("Vertical")*movementSpeed);
             if (requestedVector != Vector3.zero && movementSpeed != 0)
@@ -132,6 +147,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (walkingIntoWall && Time.time - timePassedWalkingIntoWall >= 1f)
             {
+                wallBumpSFX.volume = soundVolume * GameSettingHandler.SFXVolume;
                 wallBumpSFX.Play();
                 timePassedWalkingIntoWall = Time.time;
             }
@@ -143,8 +159,11 @@ public class PlayerMovement : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Floor")) {
-            if(!IsGrounded)
+            if (!IsGrounded)
+            {
+                landSFX.volume = soundVolume * GameSettingHandler.SFXVolume;
                 landSFX.Play();
+            }
             groundContacts += 1;
             Debug.Log("Collided with floor.");
             SoundProgression_Manager.singleton.FallDown();
@@ -155,6 +174,7 @@ public class PlayerMovement : MonoBehaviour
             int level = Mathf.FloorToInt(collision.transform.position.y) / 2;
             landPlatSFX.pitch = 1f + (level * 0.5f);
 
+            landPlatSFX.volume = soundVolume * GameSettingHandler.SFXVolume;
             landPlatSFX.Play();
             groundContacts += 1;
             Debug.Log("Collided with platform.");
@@ -162,11 +182,14 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Wall")) {
             TouchingWall = true;
             timePassedWalkingIntoWall = Time.time;
+
+            wallBumpSFX.volume = soundVolume * GameSettingHandler.SFXVolume;
             wallBumpSFX.Play();
             Debug.Log("Collided with wall.");
         }
         if (collision.gameObject.CompareTag("DeathZone"))
         {
+            deathSFX.volume = soundVolume * GameSettingHandler.SFXVolume;
             deathSFX.Play();
             StartCoroutine(DeathCooldown());
             Debug.Log("Collidied with deathzone");
@@ -195,6 +218,7 @@ public class PlayerMovement : MonoBehaviour
                 int level = Mathf.FloorToInt(other.transform.parent.position.y) / 2;
                 landStepSFX.pitch = 1f + (level * 0.5f);
 
+                landStepSFX.volume = soundVolume * GameSettingHandler.SFXVolume;
                 landStepSFX.Play();
             }
             groundContacts += 1;
@@ -204,6 +228,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if (other.gameObject.CompareTag("Goal")){
             menuhandling.OpenGoalPanel();
+            clearSFX.volume = goalVolume * GameSettingHandler.BGMVolume;
             clearSFX.Play();
             Debug.Log("Collided with goal trigger.");
         }
