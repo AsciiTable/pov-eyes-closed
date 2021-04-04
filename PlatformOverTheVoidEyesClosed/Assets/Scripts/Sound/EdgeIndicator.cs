@@ -130,7 +130,7 @@ public class EdgeIndicator : MonoBehaviour
 
             if (nextEdge != null)
             {
-                nextEdge.SetBrain(false);
+                nextEdge.SetBrain(true);
             }
             else
                 music.enabled = false;
