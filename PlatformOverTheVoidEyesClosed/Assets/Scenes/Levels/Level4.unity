@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2259,10 +2259,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxVolume: 0.7
   minVolume: 0
-  deltaEars: 30
+  deltaEars: 89
   deltaBack: 90
   backSuppress: 10
-  earSuppress: 10
+  earSuppress: 0
 --- !u!114 &1189141964 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2889394830384852404, guid: 5ee171f29abc8f249a1cdc8cda55292f, type: 3}
