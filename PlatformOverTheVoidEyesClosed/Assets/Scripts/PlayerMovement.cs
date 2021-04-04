@@ -158,7 +158,6 @@ public class PlayerMovement : MonoBehaviour
             landPlatSFX.Play();
             groundContacts += 1;
             Debug.Log("Collided with platform.");
-            SoundProgression_Manager.singleton.FallDown();
         }
         if (collision.gameObject.CompareTag("Wall")) {
             TouchingWall = true;

@@ -11,4 +11,11 @@ public class PlatformNode : ProgressionNode
                 if(col.transform.position.y >= transform.parent.position.y)
                     SoundProgression_Manager.singleton.Progress(progressionID);
     }
+    private void OnTriggerStay(Collider col)
+    {
+        if (col.gameObject.CompareTag("Player"))
+            if (progressionID >= 0)
+                if (col.transform.position.y >= transform.parent.position.y)
+                    SoundProgression_Manager.singleton.Progress(progressionID);
+    }
 }

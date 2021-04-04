@@ -7,11 +7,13 @@ public class SoundProgression_Manager : MonoBehaviour
     public static SoundProgression_Manager singleton = null;
     [Tooltip("List of progressionNodes that player needs to pass to complete the level")]
     [SerializeField] ProgressionNode[] progressionList = null;
-    private int currentID = -1;
+    [SerializeField] private int currentID = -1;
     [Tooltip("If the player dies, progress will reset to the node of these indices")]
     [SerializeField] int[] checkpoints = new int[0];
     private int checkpointIndex = -1;
-    public bool IsFinished { get => currentID == progressionList.Length - 1; }
+
+    public int CurrentID { get => currentID; }
+    public bool IsFinished { get => currentID >= progressionList.Length - 1; }
 
     private AudioSource music = null;
     private FollowNode follow = null;
@@ -45,19 +47,17 @@ public class SoundProgression_Manager : MonoBehaviour
 
     public void FallDown()
     {
-        if (checkpointIndex == -1)
-            Progress(-1);
-        else if (checkpointIndex >= progressionList.Length)
+        if (IsFinished || checkpointIndex < 0)
             return;
         else
         {
-            Progress(checkpoints[checkpointIndex] - 1);
+            Progress(checkpoints[checkpointIndex]);
         }
     }
     public void Progress(int id) 
     {
         //leave if id is out of range
-        if (id >= progressionList.Length || id < -1)
+        if (IsFinished || id < -1)
             return;
 
         //Turn on audio for new id
@@ -70,7 +70,8 @@ public class SoundProgression_Manager : MonoBehaviour
 
             if(checkpoints.Length > 0)
             {
-                while (checkpoints[checkpointIndex + 1] < id)
+                checkpointIndex = 0;
+                while (checkpointIndex <= checkpoints.Length - 2 && checkpoints[checkpointIndex + 1] <= id)
                     checkpointIndex++;
             }
             Play();

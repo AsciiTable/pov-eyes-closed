@@ -6,6 +6,7 @@ public class EdgeIndicator : MonoBehaviour
 {
     Transform camTrans = null;
     AudioSource music = null;
+    EdgeIndicator[] edges = null;
 
     [Header("MUSIC SETTINGS")]
     [SerializeField] float maxVolume = 0.7f;
@@ -19,24 +20,24 @@ public class EdgeIndicator : MonoBehaviour
     [SerializeField] float backSuppress = 10f;
     [Tooltip("Range for angle when ear's stereo pan maxes")]
     [SerializeField] float earSuppress = 10f;
-    private void OnEnable()
-    {
-        UpdateHandler.UpdateOccurred += SetAngle;
-    }
-    private void OnDisable()
-    {
-        UpdateHandler.UpdateOccurred -= SetAngle;
-    }
+
+    bool contact = false;
+    bool isBrain = false;
+    public bool Contact { get => contact; }
+
     void Start()
     {
         camTrans = GameObject.FindGameObjectWithTag("MainCamera").transform;
-        music = GetComponent<AudioSource>();
+        music = transform.parent.GetComponentInChildren<AudioSource>();
+        edges = transform.parent.GetComponentsInChildren<EdgeIndicator>();
+
+        music.enabled = false;
     }
 
     void SetAngle()
     {
         //Get absolute angle using the position and direction of the player and platform
-        Vector3 targetDir = transform.position - camTrans.position;
+        Vector3 targetDir = music.transform.position - camTrans.position;
         targetDir.y = 0;
         float angle = Vector3.Angle(targetDir, camTrans.forward);
 
@@ -92,5 +93,50 @@ public class EdgeIndicator : MonoBehaviour
         else
             music.panStereo = 0;
     }
+    EdgeIndicator GetNextContact()
+    {
+        foreach(EdgeIndicator e in edges)
+        {
+            if (e.Contact && e != this)
+                return e;
+        }
+        return null;
+    }
+    public void SetBrain(bool b)
+    {
+        isBrain = b;
+        if (b)
+            UpdateHandler.UpdateOccurred += SetAngle;
+        else
+            UpdateHandler.UpdateOccurred -= SetAngle;
+    }
 
+    private void OnTriggerEnter(Collider col)
+    {
+        contact = true;
+        music.enabled = true;
+        if (GetNextContact() == null)
+        {
+            SetBrain(true);
+        }
+            
+    }
+    private void OnTriggerExit(Collider col)
+    {
+        contact = false;
+        if (isBrain)
+        {
+            SetBrain(false);
+
+            EdgeIndicator nextEdge = GetNextContact();
+
+            if (nextEdge != null)
+            {
+                nextEdge.SetBrain(false);
+            }
+            else
+                music.enabled = false;
+        }
+        
+    }
 }

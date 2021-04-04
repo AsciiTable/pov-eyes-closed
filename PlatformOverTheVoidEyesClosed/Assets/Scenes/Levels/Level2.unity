@@ -187,8 +187,9 @@ MonoBehaviour:
   - {fileID: 1010442610}
   - {fileID: 547074529}
   - {fileID: 5030870051858967219}
+  currentID: -1
   checkpoints: ffffffff00000000010000000500000007000000
-  musicVolume: 0.3
+  musicVolume: 0.7
 --- !u!1 &27519756
 GameObject:
   m_ObjectHideFlags: 0
@@ -1865,7 +1866,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 222689165bf1fcf4eac37026c7f9661b, type: 3}
+  m_audioClip: {fileID: 8300000, guid: df3947d623dc57547b4f7a4068248619, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -1876,7 +1877,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 12
+  MaxDistance: 18
   Pan2D: 0
   rolloffMode: 1
   BypassEffects: 0
@@ -3224,13 +3225,17 @@ PrefabInstance:
       value: Endgoal
       objectReference: {fileID: 0}
     - target: {fileID: 5030870051697610220, guid: 66d0b13c9eee8f84cbcd86ec9252230a, type: 3}
+      propertyPath: maxVolume
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5030870051697610220, guid: 66d0b13c9eee8f84cbcd86ec9252230a, type: 3}
       propertyPath: minVolume
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5030870051697610222, guid: 66d0b13c9eee8f84cbcd86ec9252230a, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: df3947d623dc57547b4f7a4068248619, type: 3}
+      objectReference: {fileID: 8300000, guid: 222689165bf1fcf4eac37026c7f9661b, type: 3}
     - target: {fileID: 5030870051697610223, guid: 66d0b13c9eee8f84cbcd86ec9252230a, type: 3}
       propertyPath: m_RootOrder
       value: 7
