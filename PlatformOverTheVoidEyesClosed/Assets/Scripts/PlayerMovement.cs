@@ -166,7 +166,8 @@ public class PlayerMovement : MonoBehaviour
             }
             groundContacts += 1;
             Debug.Log("Collided with floor.");
-            SoundProgression_Manager.singleton.FallDown();
+            if(SoundProgression_Manager.singleton != null)
+                SoundProgression_Manager.singleton.FallDown();
         }
         if (collision.gameObject.CompareTag("Platform"))
         {

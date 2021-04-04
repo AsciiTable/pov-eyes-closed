@@ -48,8 +48,8 @@ MonoBehaviour:
   progressionID: -1
   maxVolume: 1
   minVolume: 0
-  deltaEars: 30
-  deltaBack: 90
+  deltaEars: 50
+  deltaBack: 100
   backSuppress: 20
   earSuppress: 10
 --- !u!82 &5030870051697610222

@@ -22,7 +22,7 @@ public class SoundProgression_Manager : MonoBehaviour
     [SerializeField] float musicVolume = 0.5f;
     public float Volume { get => musicVolume; }
 
-    private void Awake()
+    private void OnEnable()
     {
         if (singleton == null)
             singleton = this;

@@ -16,6 +16,15 @@ public class GameSettingHandler : MonoBehaviour
     public static float SFXVolume { get => singleton.settings.sfxVolumeScale; }
     public static float BGMVolume { get => singleton.settings.bgmVolumeScale; }
 
+    private void OnEnable()
+    {
+        if (singleton == null)
+            singleton = this;
+    }
+    private void OnDisable()
+    {
+        singleton = null;
+    }
     private void Start()
     {
         settings = new GameSettings();
