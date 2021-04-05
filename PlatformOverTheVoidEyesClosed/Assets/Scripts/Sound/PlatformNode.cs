@@ -10,7 +10,6 @@ public class PlatformNode : ProgressionNode
             if (progressionID >= 0)
                 if (col.transform.position.y >= transform.parent.position.y)
                     SoundProgression_Manager.singleton.Progress(progressionID);
-            Debug.Log("I here ye");
         }
 
             
