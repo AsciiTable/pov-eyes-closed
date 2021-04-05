@@ -3986,6 +3986,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: EyesClosed
       objectReference: {fileID: 0}
+    - target: {fileID: 6887512358308903372, guid: cfaded2b3725a1c40a51e3465d7e0afa, type: 3}
+      propertyPath: m_text
+      value: Floating Platforms
+      objectReference: {fileID: 0}
+    - target: {fileID: 7855731872968371270, guid: cfaded2b3725a1c40a51e3465d7e0afa, type: 3}
+      propertyPath: m_text
+      value: LEVEL 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cfaded2b3725a1c40a51e3465d7e0afa, type: 3}
 --- !u!1001 &7730453566574722267
