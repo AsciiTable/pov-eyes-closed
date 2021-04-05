@@ -109,7 +109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxVolume: 0.3
-  minVolume: 0.05
+  minVolume: 0.2
   deltaEars: 90
   deltaBack: 90
   backSuppress: 10
@@ -223,7 +223,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxVolume: 0.3
-  minVolume: 0.05
+  minVolume: 0.2
   deltaEars: 90
   deltaBack: 90
   backSuppress: 10
@@ -432,7 +432,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxVolume: 0.3
-  minVolume: 0.05
+  minVolume: 0.2
   deltaEars: 90
   deltaBack: 90
   backSuppress: 10
@@ -782,7 +782,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxVolume: 0.3
-  minVolume: 0.05
+  minVolume: 0.2
   deltaEars: 90
   deltaBack: 90
   backSuppress: 10
