@@ -2781,6 +2781,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GoalPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 4459819484123679309, guid: 83fdab7541daefb4cb48c1e97bd5fa40, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4459819484123679310, guid: 83fdab7541daefb4cb48c1e97bd5fa40, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -4246,7 +4250,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 740261471, guid: 745ea4704dc1a3742ae82be00b3a5554, type: 3}
       propertyPath: levelIndex
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 792648259, guid: 745ea4704dc1a3742ae82be00b3a5554, type: 3}
       propertyPath: m_Enabled
