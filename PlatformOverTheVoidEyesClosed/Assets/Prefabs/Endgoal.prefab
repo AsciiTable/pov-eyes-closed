@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   progressionID: -1
-  maxVolume: 1
+  maxVolume: 0.5
   minVolume: 0
   deltaEars: 50
   deltaBack: 100

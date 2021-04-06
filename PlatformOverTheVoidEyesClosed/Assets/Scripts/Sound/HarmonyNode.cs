@@ -8,17 +8,17 @@ public class HarmonyNode : MonoBehaviour
     AudioSource music = null;
 
     [Header("MUSIC SETTINGS")]
-    [SerializeField] float maxVolume = 0.7f;
+    [SerializeField] float maxVolume = 1f;
     [SerializeField] float minVolume = 0f;
     
     [Tooltip("Angle range from left and right of player to determine when stero pan starts adjusting")]
-    [SerializeField] float deltaEars = 30f;
+    [SerializeField] float deltaEars = 90f;
     [Tooltip("Angle range from back of player to determine when volume starts silencing")]
-    [SerializeField] float deltaBack = 90f;
+    [SerializeField] float deltaBack = 170f;
     [Tooltip("Range for angle when back's magnitude become 0")]
-    [SerializeField] float backSuppress = 10f;
+    [SerializeField] float backSuppress = 0f;
     [Tooltip("Range for angle when ear's stereo pan maxes")]
-    [SerializeField] float earSuppress = 10f;
+    [SerializeField] float earSuppress = 0f;
 
     private void OnEnable()
     {

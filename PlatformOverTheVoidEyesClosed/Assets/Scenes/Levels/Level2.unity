@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1949,7 +1949,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -2014,11 +2014,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90fa5d95176a9124698572002b965ee7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxVolume: 0.7
+  maxVolume: 1
   minVolume: 0
-  deltaEars: 89
-  deltaBack: 90
-  backSuppress: 10
+  deltaEars: 90
+  deltaBack: 170
+  backSuppress: 0
   earSuppress: 0
 --- !u!1001 &1354416264
 PrefabInstance:

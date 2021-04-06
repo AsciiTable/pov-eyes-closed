@@ -13,7 +13,7 @@ public class GoalNode : ProgressionNode
     [SerializeField] float minVolume = 0f;
 
     [Tooltip("Angle range from left and right of player to determine when stero pan starts adjusting")]
-    [SerializeField] float deltaEars = 30f;
+    [SerializeField] float deltaEars = 90f;
     [Tooltip("Angle range from back of player to determine when volume starts silencing")]
     [SerializeField] float deltaBack = 90f;
     [Tooltip("Range for angle when back's magnitude become 0")]
@@ -21,15 +21,20 @@ public class GoalNode : ProgressionNode
     [Tooltip("Range for angle when ear's stereo pan maxes")]
     [SerializeField] float earSuppress = 10f;
 
-    // Start is called before the first frame update
+    private void OnEnable()
+    {
+        UpdateHandler.UpdateOccurred += UpdateMelody;
+    }
+    private void OnDisable()
+    {
+        UpdateHandler.UpdateOccurred -= UpdateMelody;
+    }
     void Start()
     {
         music = GetComponent<AudioSource>();
         camTrans = GameObject.FindGameObjectWithTag("MainCamera").transform;
     }
-
-    // Update is called once per frame
-    void Update()
+    void UpdateMelody()
     {
         float playerAngle = camTrans.rotation.eulerAngles.y;
 
